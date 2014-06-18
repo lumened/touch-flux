@@ -1,8 +1,10 @@
+#!/usr/bin/python
+
 import time
 import json
 
-from api_interface import *
-from gui_interface import *
+from src.api_interface import *
+from src.gui_interface import *
 
 def notify_start():
     
