@@ -23,35 +23,35 @@ def start_gui():
    if disp_no:
       print "I'm running under X display = {0}".format(disp_no)
       
-      # Start with fbcon since directfb hangs with composite output
-      drivers = [ 'fbcon', 'svgalib', 'directfb']
-      found = False
-      for driver in drivers:
-         # Make sure that SDL_VIDEODRIVER is set
-         if not os.getenv('SDL_VIDEODRIVER'):
-            os.putenv('SDL_VIDEODRIVER', driver)
-            try:
-               pygame.display.init()
-               print driver
-            except pygame.error:
-               print 'Driver: {0} failed.'.format(driver)
-               continue
-            found = True
-            break
-         if not found:
-            raise Exception('No suitable video driver found!')
-         print os.getenv('SDL_VIDEODRIVER')
-         size = (pygame.display.Info().current_w, pygame.display.Info().current_h)
-         print "Framebuffer size: %d x %d" % (size[0], size[1])
+   # Start with fbcon since directfb hangs with composite output
+   drivers = [ 'fbcon', 'svgalib', 'directfb']
+   found = False
+   for driver in drivers:
+      # Make sure that SDL_VIDEODRIVER is set
+      if not os.getenv('SDL_VIDEODRIVER'):
+         os.putenv('SDL_VIDEODRIVER', driver)
+         try:
+            pygame.display.init()
+            print driver
+         except pygame.error:
+            print 'Driver: {0} failed.'.format(driver)
+            continue
+         found = True
+         break
+   if not found:
+      raise Exception('No suitable video driver found!')
+   print os.getenv('SDL_VIDEODRIVER')
+   size = (pygame.display.Info().current_w, pygame.display.Info().current_h)
+   print "Framebuffer size: %d x %d" % (size[0], size[1])
             
       #No self in this scope??
       #self.screen = 
-         pygame.display.set_mode(size, pygame.FULLSCREEN)
+   pygame.display.set_mode(size, pygame.FULLSCREEN)
       #self.screen.fill((0, 0, 0))
       # Initialise font support
-         pygame.font.init()
+   pygame.font.init()
       # render the screen
-         pygame.display.update()
+   pygame.display.update()
 
 #Defining rectangular buttons
    btn1 = Button('+') #Vol Up
