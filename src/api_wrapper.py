@@ -15,7 +15,7 @@ import base64
 
 # This is a single, reusable method that makes a call to XBMC and gives you back the response
 
-def getJsonRemote(method,parameters='',host='127.1.1.1',port='8080'):
+def getJsonRemote(method,parameters='',host='127.1.1.1',port='80'):
     ''' Nice wrapper for HTML JSON requests for XBMC '''
     
     # First we build the URL we're going to talk to
