@@ -12,10 +12,15 @@ def start_gui():
    global clock
    global btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9
 
+   os.environ["TSLIB_TSDEVICE"] = "/dev/input/event0"
+   os.environ["TSLIB_TSEVENTTYPE"] = "INPUT"
+   os.environ["TSLIB_CONFFILE"] = "/etc/ts.conf"
+   os.environ["TSLIB_CALIBFILE"] = "/etc/pointercal"
    os.environ["SDL_FBDEV"] = "/dev/fb1"
-   os.environ["SDL_MOUSEDEV"] = "/dev/input/touchscreen"
+   os.environ["SDL_MOUSEDEV"] = os.environ["TSLIB_TSDEVICE"]
    os.environ["SDL_MOUSEDRV"] = "TSLIB"
-
+   os.environ["SDL_VIDEODRIVER"] = "fbcon"
+   os.environ["SDL_AUDIODRIVER"] = "alsa"
    pygame.init()
    print __name__
    
@@ -23,34 +28,35 @@ def start_gui():
    if disp_no:
       print "I'm running under X display = {0}".format(disp_no)
       
-   # Start with fbcon since directfb hangs with composite output
+      # Start with fbcon since directfb hangs with composite output
    drivers = [ 'fbcon', 'svgalib', 'directfb']
    found = False
-   for driver in drivers:
+#   for driver in drivers:
       # Make sure that SDL_VIDEODRIVER is set
-      if not os.getenv('SDL_VIDEODRIVER'):
-         os.putenv('SDL_VIDEODRIVER', driver)
-         try:
-            pygame.display.init()
-            print driver
-         except pygame.error:
-            print 'Driver: {0} failed.'.format(driver)
-            continue
-         found = True
-         break
-   if not found:
-      raise Exception('No suitable video driver found!')
+#      if not os.getenv('SDL_VIDEODRIVER'):
+#         os.putenv('SDL_VIDEODRIVER', driver)
+#         try:
+#            pygame.display.init()
+#            print driver
+#         except pygame.error:
+#            print 'Driver: {0} failed.'.format(driver)
+#            continue
+#         found = True
+#         break
+#   if not found:
+#      raise Exception('No suitable video driver found!')
+   pygame.init()
    print os.getenv('SDL_VIDEODRIVER')
    size = (pygame.display.Info().current_w, pygame.display.Info().current_h)
    print "Framebuffer size: %d x %d" % (size[0], size[1])
-            
+   
       #No self in this scope??
       #self.screen = 
-   pygame.display.set_mode(size, pygame.FULLSCREEN)
+   screen=pygame.display.set_mode(size, pygame.FULLSCREEN)
       #self.screen.fill((0, 0, 0))
       # Initialise font support
    pygame.font.init()
-      # render the screen
+ # render the screen
    pygame.display.update()
 
 #Defining rectangular buttons
@@ -66,7 +72,7 @@ def start_gui():
    btn9 = Button('')#'Button 9(Right)')            
 
    #setting display mode and resolution
-   screen = pygame.display.set_mode((320,240))
+#   screen = pygame.display.set_mode((320,240))
    clock = pygame.time.Clock()
 
 def update_gui():
@@ -82,43 +88,44 @@ def update_gui():
          pygame.quit()
          sys.exit()
       if event.type == pygame.MOUSEBUTTONDOWN:
+         mouse = pygame.mouse.get_pos()
          if btn1.obj.collidepoint(mouse):
             #Increase Volume Handler
-            playback_vol_inc()
             print('button 1 clicked')
+#            playback_vol_inc()
             
          elif btn2.obj.collidepoint(mouse):
             #Decrease Volume Handler
-            playback_vol_dec()
             print('button 2 clicked')
+            playback_vol_dec()
                   
          elif btn3.obj.collidepoint(mouse):
-            nav_back()
             print('button 3 clicked')
+            nav_back()
             
          if btn4.obj.collidepoint(mouse):
-            playback_toggle_play()
             print('button 4 clicked')
+            playback_toggle_play()
 
          if btn5.obj.collidepoint(mouse):
-            nav_select()
             print('button 5 clicked')
+            nav_select()
 
          if btn6.obj.collidepoint(mouse):
-            nav_up()
             print('button 6 clicked')
+            nav_up()
 
          if btn7.obj.collidepoint(mouse):
-            nav_left()
             print('button 7 clicked')
+            nav_left()
 
          if btn8.obj.collidepoint(mouse):
-            nav_down()
             print('button 8 clicked')
+            nav_down()
 
          if btn9.obj.collidepoint(mouse):
-            nav_right()
             print('button 9 clicked')
+            nav_right()
                                     
    btn1.draw_rect(screen, mouse, (0,0,80,80), (40,30))
    btn2.draw_rect(screen, mouse, (0,160,80,80), (40,190))
@@ -134,3 +141,4 @@ def update_gui():
       
    pygame.display.update()
    clock.tick(60)
+
