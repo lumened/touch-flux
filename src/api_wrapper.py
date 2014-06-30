@@ -2,21 +2,24 @@ import json
 import urllib2
 import base64
 
+# For testing
+# ip = '127.0.0.1'
+# port = '8080'
 
-#ip = '127.0.0.1'
-#port = '8080'
+# For deployment
+# port = '80'
+
 # The username on XBMC's web interface (just comment or delete this line if you don't use authentication
-#username = 'xbmc'
+# username = 'xbmc'
 # Same as the username.
-#password = 'xbmc'
+# password = 'xbmc'
 
 #method = 'Addons.ExecuteAddon'
 #parameters = {"addonid":"script.artwork.downloader", "params":{"silent":"true"}, "wait":True}
 
-# This is a single, reusable method that makes a call to XBMC and gives you back the response
 
-def getJsonRemote(method,parameters='',host='127.1.1.1',port='80'):
-    ''' Nice wrapper for HTML JSON requests for XBMC '''
+def getJsonRemote(method,parameters='',host='127.1.1.1',port='8080'):
+    ''' Wrapper for HTML JSON requests for XBMC '''
     
     # First we build the URL we're going to talk to
     url = 'http://%s:%s/jsonrpc' %(host, port)
@@ -58,8 +61,3 @@ def getJsonRemote(method,parameters='',host='127.1.1.1',port='80'):
         # You will get a couple different kinds of error messages in here, so I needed a consistent error condition to check for.
         response = 'ERROR '+str(e.reason)
     return response
-
-# Here's an example of using the above method and variable values to make XBMC run the add-on
-#results=getJsonRemote(ip,port,method,parameters)
-# I just print the results out
-#print results

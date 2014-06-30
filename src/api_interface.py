@@ -44,23 +44,29 @@ def nav_back():
 def playback_vol_inc():
     method = 'Application.GetProperties'
     parameters = {"properties": ["volume"]}
-    volume = getJsonRemote(method, parameters)['volume']
-    print(volume)
-    volume = int(volume) + 5
-    method = 'Application.SetVolume'
-    parameters = {"volume": volume}
-    getJsonRemote(method, parameters)
+    try:
+        volume = getJsonRemote(method, parameters)['volume']
+        print(volume)
+        volume = int(volume) + 5
+        method = 'Application.SetVolume'
+        parameters = {"volume": volume}
+        getJsonRemote(method, parameters)
+    except IndexError:
+        return
 
 
 def playback_vol_dec():
     method = 'Application.GetProperties'
     parameters = {"properties": ["volume"]}
-    volume = getJsonRemote(method, parameters)['volume']
-    print(volume)
-    volume = int(volume) - 5
-    method = 'Application.SetVolume'
-    parameters = {"volume": volume}
-    getJsonRemote(method, parameters)
+    try:
+        volume = getJsonRemote(method, parameters)['volume']
+        print(volume)
+        volume = int(volume) - 5
+        method = 'Application.SetVolume'
+        parameters = {"volume": volume}
+        getJsonRemote(method, parameters)
+    except IndexError:
+        return
 
 
 def playback_find_player():
