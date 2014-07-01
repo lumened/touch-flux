@@ -12,10 +12,10 @@ def init():
 
     menu = {}
 #Defining rectangular buttons
-    menu['btn1'] = Button('+') #Vol Up
-    menu['btn2'] = Button('-') #Vol Down
+    menu['btn1'] = Button('Playback') #Vol Up
+    menu['btn2'] = Button('Power') #Vol Down
     menu['btn3'] = Button('Back')#Back
-    menu['btn4'] = Button('Play')#Play/Pause
+    menu['btn4'] = Button('Camera')#Play/Pause
     menu['btn5'] = Button('Select')#Enter
 #defining Triangular Buttons
     menu['btn6'] = Button('')#'Button 6(Up)')
@@ -48,7 +48,6 @@ def handle_event(mouse):
 
     if menu['btn1'].obj.collidepoint(mouse):
         print('button 1 clicked')
-        playback_vol_inc()
         return 2
             
     elif menu['btn2'].obj.collidepoint(mouse):
@@ -61,7 +60,7 @@ def handle_event(mouse):
         
     elif menu['btn4'].obj.collidepoint(mouse):
         print('button 4 clicked')
-        playback_toggle_play()
+#        playback_toggle_play()
             
     elif menu['btn5'].obj.collidepoint(mouse):
         print('button 5 clicked')
