@@ -51,7 +51,7 @@ def playback_vol_inc():
         method = 'Application.SetVolume'
         parameters = {"volume": volume}
         getJsonRemote(method, parameters)
-    except IndexError:
+    except:
         return
 
 
@@ -65,7 +65,7 @@ def playback_vol_dec():
         method = 'Application.SetVolume'
         parameters = {"volume": volume}
         getJsonRemote(method, parameters)
-    except IndexError:
+    except:
         return
 
 

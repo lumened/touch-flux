@@ -49,6 +49,7 @@ def handle_event(mouse):
     if menu['btn1'].obj.collidepoint(mouse):
         print('button 1 clicked')
         playback_vol_inc()
+        return 2
             
     elif menu['btn2'].obj.collidepoint(mouse):
         print('button 2 clicked')
@@ -82,4 +83,4 @@ def handle_event(mouse):
         print('button 9 clicked')
         nav_right()
     
-    return None
+    return 1

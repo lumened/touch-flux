@@ -2,13 +2,14 @@
 INDEP = True #To test outside of XBMC
 
 import pygame, os, time, sys
-import gui_screen1
+import gui_screen1, gui_screen2
 
 def start_gui():
    
    global screen
    global clock
-   
+   global active_screen
+
    if not INDEP :
       os.environ["TSLIB_TSDEVICE"] = "/dev/input/event0"
       os.environ["TSLIB_TSEVENTTYPE"] = "INPUT"
@@ -50,29 +51,36 @@ def start_gui():
 
    #Initialising the screens
    gui_screen1.init()
+   gui_screen2.init()
 
    #setting display mode and resolution
    #screen = pygame.display.set_mode((320,240))
    clock = pygame.time.Clock()
 
+   active_screen = 1 #Startup Menu
    return None
 
 
 def update_gui():
    global screen
    global clock
+   global active_screen
 
    screen.fill((255,255,255))
    mouse = pygame.mouse.get_pos()
+
+   if active_screen == 1 :   gui_screen1.draw(screen, mouse)
+   elif active_screen == 2 : gui_screen2.draw(screen, mouse)
+
    for event in pygame.event.get():
       if event.type == pygame.QUIT:
          pygame.quit()
          sys.exit()
       if event.type == pygame.MOUSEBUTTONDOWN:
          mouse = pygame.mouse.get_pos()
-         gui_screen1.handle_event(mouse)
+         if active_screen == 1 :   active_screen = gui_screen1.handle_event(mouse)
+         elif active_screen == 2 : active_screen = gui_screen2.handle_event(mouse)
               
-   gui_screen1.draw(screen, mouse)
 
    pygame.display.update()
    clock.tick(60)
