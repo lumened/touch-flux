@@ -50,22 +50,22 @@ def draw(screen, mouse):
     
     #Live Update Area
 
-    ##Progressbar
-    pygame.draw.rect(screen, colors['white'],(5,70,310,25))
-    try :
+    try : #If available, update
         percentage = playback_percentage()/100
         time, total_time = playback_time()
-    except:
+    except: #Else, switch to screen 1
         switch_screen = True
         return 1
 
+    ##Progressbar
+    pygame.draw.rect(screen, colors['white'],(5,70,310,25))
     pygame.draw.rect(screen, colors['maroon'] , (7,72,percentage*306,21))
     
     ##Playback Status - Title + Time
-    font = pygame.font.Font(None, 20)
-    title = font.render(playback_title(), 1, (255,255,255))
-    time = font.render(time + '/' + total_time, 1, (255,255,255))
-    screen.blit(title, (10,20))
+    font = pygame.font.Font(None, 22)
+    title = font.render(playback_title(), 1, colors['white'])
+    time = font.render(time + '/' + total_time, 1, colors['white'])
+    screen.blit(title, (10,15))
     screen.blit(time, (10,40))
 
     return 2
