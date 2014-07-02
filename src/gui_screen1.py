@@ -61,7 +61,6 @@ def handle_event(mouse):
             
     elif menu['btn2'].obj.collidepoint(mouse):
         if DEBUG : print('button 2 clicked')
-        playback_vol_dec()
                   
     elif menu['btn3'].obj.collidepoint(mouse):
         if DEBUG : print('button 3 clicked')
@@ -69,7 +68,6 @@ def handle_event(mouse):
         
     elif menu['btn4'].obj.collidepoint(mouse):
         if DEBUG : print('button 4 clicked')
-#        playback_toggle_play()
             
     elif menu['btn5'].obj.collidepoint(mouse):
         if DEBUG : print('button 5 clicked')

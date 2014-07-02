@@ -141,12 +141,12 @@ def json_timetostr(time):
     h = time['hours']
     
     if h==0:
-        if m==0:
-            return str(s)
-        else:
-            return str(m) + ':' + str(s)
+#        if m==0:
+#           return '00:' + str("%.2d" % s)
+#        else:
+        return str("%.2d" % m) + ':' + str("%.2d" % s)
     else:
-        return str(h) + ':' + str(m) + ':' + str(s)
+        return str(h) + ':' + str("%.2d" % m) + ':' + str("%.2d" % s)
     
 def playback_title():
     player_id = playback_find_player()
