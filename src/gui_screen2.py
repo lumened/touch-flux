@@ -17,7 +17,7 @@ def init():
     menu['btn2'] = Button('-', './icons/vol-down.png') #Vol Down
     menu['btn3'] = Button('Play', './icons/play.png')#Back
     menu['btn4'] = Button('Back', './icons/rewind.png')#Play/Pause
-    menu['btn5'] = Button('Stop','./icons/stop.png')#Enter
+    menu['btn5'] = Button('Stop','./icons/stop.png')#Stop
     menu['btn6'] = Button('Forward', './icons/forward.png')#'Button 6(Up)')
     menu['btn7'] = Button('Nav', './icons/right.png')#Button 6(Up)')
     
@@ -78,7 +78,7 @@ def handle_event(mouse):
         
     elif menu['btn4'].obj.collidepoint(mouse):
         print('button 4 clicked')
-#        playback_toggle_play()
+        playback_rewind()
             
     elif menu['btn5'].obj.collidepoint(mouse):
         print('button 5 clicked')
@@ -87,7 +87,7 @@ def handle_event(mouse):
 
     elif menu['btn6'].obj.collidepoint(mouse):
         print('button 6 clicked')
-
+        playback_forward()
 
     elif menu['btn7'].obj.collidepoint(mouse):
         print('button 7 clicked')

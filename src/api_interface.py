@@ -88,6 +88,22 @@ def playback_toggle_play():
     parameters = {"playerid": player_id} 
     getJsonRemote(method, parameters)
 
+def playback_rewind(): 
+    player_id = playback_find_player()
+    if player_id == None : return
+    percentage = playback_percentage()
+    method = 'Player.Seek'
+    parameters = {"playerid": player_id, "value":percentage-3} 
+    getJsonRemote(method, parameters)
+
+def playback_forward(): 
+    player_id = playback_find_player()
+    if player_id == None : return
+    percentage = playback_percentage()
+    method = 'Player.Seek'
+    parameters = {"playerid": player_id, "value":percentage+3} 
+    getJsonRemote(method, parameters)
+
 def playback_stop(): 
     player_id = playback_find_player()
     if player_id == None : return
