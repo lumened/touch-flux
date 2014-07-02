@@ -66,7 +66,7 @@ def update_gui():
    global clock
    global active_screen
 
-   screen.fill((255,255,255))
+   screen.fill((0xFF,0x33,0x00)) #Background Color
    mouse = pygame.mouse.get_pos()
 
    if active_screen == 1 :   gui_screen1.draw(screen, mouse)

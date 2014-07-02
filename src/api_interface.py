@@ -88,13 +88,58 @@ def playback_toggle_play():
     parameters = {"playerid": player_id} 
     getJsonRemote(method, parameters)
     
-
-#Not functional atm
-def playback_status():
+def playback_percentage():
     player_id = playback_find_player()
     if player_id == None : return
-    request = '{"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "album", "artist", "duration", "thumbnail", "file", "fanart", "streamdetails"], "playerid":' + str(player_id) +  ' }, "id": "AudioGetItem"}'
-    current = xbmc.executeJSONRPC(request)
-    title = json.JSONDecoder().decode(current)['result']['item']['title']
-    #print title
-    return title
+    method = 'Player.GetProperties'
+    parameters = {"playerid": player_id, "properties":["percentage"]} 
+    result = getJsonRemote(method, parameters)
+    try:
+        return result['percentage']
+    except:
+        return None
+
+def playback_time():
+    player_id = playback_find_player()
+    if player_id == None : return
+    method = 'Player.GetProperties'
+    parameters = {"playerid": player_id, "properties":["time", "totaltime"]} 
+    result = getJsonRemote(method, parameters)
+    try:
+        return json_timetostr(result['time']), json_timetostr(result['totaltime'])
+    except:
+        return None
+
+def json_timetostr(time):
+    s = time['seconds']
+    m = time['minutes']
+    h = time['hours']
+    
+    if h==0:
+        if m==0:
+            return str(s)
+        else:
+            return str(m) + ':' + str(s)
+    else:
+        return str(h) + ':' + str(m) + ':' + str(s)
+    
+def playback_title():
+    player_id = playback_find_player()
+    if player_id == None : return
+    method = 'Player.GetItem'
+    parameters = {"playerid": player_id, "properties":["title"]} 
+    result = getJsonRemote(method, parameters)
+    try:
+        return result['item']['title']
+    except:
+        return None
+
+
+
+def playback_properties():
+    player_id = playback_find_player()
+    if player_id == None : return
+    method = 'Player.GetProperties'
+    parameters = {"playerid": player_id, "properties":["percentage","time"]} 
+    result = getJsonRemote(method, parameters)
+    return result

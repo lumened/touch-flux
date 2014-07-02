@@ -6,6 +6,7 @@
 
 from gui_button import *
 from api_interface import *
+import pygame
 
 def init():
     global menu
@@ -27,8 +28,11 @@ def draw(screen, mouse):
     global menu
     
     x = 10
-    y = 90
+    y = 105
     button_height, button_width = (80,60) 
+    
+    colors = {'orange':(0xFF,0x33,0x00), 'white':(0xFF,0xE6,0xB3), 'maroon':(0x88,0x00,0x00)}
+
 
     menu['btn1'].draw_rect(screen, mouse, (x,y,button_height, button_width), (x,y))
     menu['btn2'].draw_rect(screen, mouse, (x,y+70,button_height, button_width), (x,y+80))
@@ -37,7 +41,22 @@ def draw(screen, mouse):
     menu['btn5'].draw_rect(screen, mouse, (x+220,y,button_height, button_width), (x+220,y))
     menu['btn6'].draw_rect(screen, mouse, (x+220,y+70,button_height, button_width), (x+220,y+70))
 
-    menu['btn7'].draw_rect(screen, mouse, (x+220,10,button_height, button_width), (x+220,10))
+    menu['btn7'].draw_rect(screen, mouse, (x+220,5,button_height, button_width), (x+220,10))
+    
+    #Live Update Area
+
+    ##Progressbar
+    pygame.draw.rect(screen, colors['white'],(5,70,310,25))
+    percentage = playback_percentage()/100
+    pygame.draw.rect(screen, colors['maroon'] , (7,72,percentage*306,21))
+    
+    ##Playback Status - Title + Time
+    font = pygame.font.Font(None, 20)
+    title = font.render(playback_title(), 1, (255,255,255))
+    time, total_time = playback_time()
+    time = font.render(time + '/' + total_time, 1, (255,255,255))
+    screen.blit(title, (10,20))
+    screen.blit(time, (10,40))
 
     return None
 

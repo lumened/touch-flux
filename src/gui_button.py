@@ -5,9 +5,9 @@ class Button:
    def __init__(self, text):
       self.text = text
       self.is_hover = False
-      self.default_color = (255,140,0)
-      self.hover_color = (128,0,0)
-      self.font_color = (0,0,0)
+      self.default_color = (0xFF,0xE6,0xB3) #Buttons' Color
+      self.hover_color = (0x88,0,0)
+      self.font_color = (0xFF,0x33,0x00) #Text Color
       self.obj = None
       
    def label(self):
