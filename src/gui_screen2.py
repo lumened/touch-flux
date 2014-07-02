@@ -13,13 +13,13 @@ def init():
 
     menu = {}
 #Defining rectangular buttons
-    menu['btn1'] = Button('+') #Vol Up
-    menu['btn2'] = Button('-') #Vol Down
-    menu['btn3'] = Button('Play')#Back
-    menu['btn4'] = Button('Back')#Play/Pause
-    menu['btn5'] = Button('Stop')#Enter
-    menu['btn6'] = Button('Forward')#'Button 6(Up)')
-    menu['btn7'] = Button('Nav')#'Button 6(Up)')
+    menu['btn1'] = Button('+', './icons/vol-up.png') #Vol Up
+    menu['btn2'] = Button('-', './icons/vol-down.png') #Vol Down
+    menu['btn3'] = Button('Play', './icons/play.png')#Back
+    menu['btn4'] = Button('Back', './icons/rewind.png')#Play/Pause
+    menu['btn5'] = Button('Stop','./icons/stop.png')#Enter
+    menu['btn6'] = Button('Forward', './icons/forward.png')#'Button 6(Up)')
+    menu['btn7'] = Button('Nav', './icons/right.png')#Button 6(Up)')
     
     return None
 
@@ -35,13 +35,13 @@ def draw(screen, mouse):
 
 
     menu['btn1'].draw_rect(screen, mouse, (x,y,button_height, button_width), (x,y))
-    menu['btn2'].draw_rect(screen, mouse, (x,y+70,button_height, button_width), (x,y+80))
-    menu['btn3'].draw_rect(screen, mouse, (x+110, y,button_height, button_width), (x+100, y))
-    menu['btn4'].draw_rect(screen, mouse, (x+110,y+70,button_height, button_width), (x+100,y+80))
+    menu['btn2'].draw_rect(screen, mouse, (x,y+70,button_height, button_width), (x,y+70))
+    menu['btn3'].draw_rect(screen, mouse, (x+110, y,button_height, button_width), (x+110, y))
+    menu['btn4'].draw_rect(screen, mouse, (x+110,y+70,button_height, button_width), (x+110,y+70))
     menu['btn5'].draw_rect(screen, mouse, (x+220,y,button_height, button_width), (x+220,y))
     menu['btn6'].draw_rect(screen, mouse, (x+220,y+70,button_height, button_width), (x+220,y+70))
 
-    menu['btn7'].draw_rect(screen, mouse, (x+220,5,button_height, button_width), (x+220,10))
+    menu['btn7'].draw_rect(screen, mouse, (x+220,5,button_height, button_width), (x+220,5))
     
     #Live Update Area
 
@@ -82,7 +82,7 @@ def handle_event(mouse):
             
     elif menu['btn5'].obj.collidepoint(mouse):
         print('button 5 clicked')
-        playback_toggle_play()
+        playback_stop()
 
     elif menu['btn6'].obj.collidepoint(mouse):
         print('button 6 clicked')

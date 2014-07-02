@@ -12,11 +12,11 @@ def init():
 
     menu = {}
 #Defining rectangular buttons
-    menu['btn1'] = Button('Playback') #Vol Up
-    menu['btn2'] = Button('Power') #Vol Down
-    menu['btn3'] = Button('Back')#Back
-    menu['btn4'] = Button('Camera')#Play/Pause
-    menu['btn5'] = Button('Select')#Enter
+    menu['btn1'] = Button('Playback', './icons/playback.png') #Vol Up
+    menu['btn2'] = Button('Power', './icons/power.png') #Vol Down
+    menu['btn3'] = Button('Back', './icons/back.png')#Back
+    menu['btn4'] = Button('Camera', './icons/camera.png')#Play/Pause
+    menu['btn5'] = Button('Select', './icons/select.png')#Enter
 #defining Triangular Buttons
     menu['btn6'] = Button('')#'Button 6(Up)')
     menu['btn7'] = Button('')#'Button 7(Left)')
@@ -28,12 +28,18 @@ def init():
 
 def draw(screen, mouse):
     global menu
+
+    x = 10
+    y = 10
     
-    menu['btn1'].draw_rect(screen, mouse, (0,0,80,80), (40,30))
-    menu['btn2'].draw_rect(screen, mouse, (0,160,80,80), (40,190))
-    menu['btn3'].draw_rect(screen, mouse, (240,160,80,80), (270,190))
-    menu['btn4'].draw_rect(screen, mouse, (240,0,80,80), (270,30))
-    menu['btn5'].draw_rect(screen, mouse, (120,80,80,80), (140,110))
+    height = 80 
+    width = 60
+
+    menu['btn1'].draw_rect(screen, mouse, (x,y,height,width), (x,y))
+    menu['btn2'].draw_rect(screen, mouse, (x,y+160,height,width), (x,y+160))
+    menu['btn3'].draw_rect(screen, mouse, (x+220,y+160,height,width), (x+220,y+160))
+    menu['btn4'].draw_rect(screen, mouse, (x+220,y,height,width), (x+220,y))
+    menu['btn5'].draw_rect(screen, mouse, (120,80,80,80), (120,80))
                                     
     menu['btn6'].draw_triangle(screen, mouse, [[160,0],[120,70],[200,70]],(125,33))      #up 
     menu['btn7'].draw_triangle(screen, mouse, [[40,120],[110,80],[110,160]],(125,33))    #left
