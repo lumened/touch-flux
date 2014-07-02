@@ -34,10 +34,13 @@ def getJsonRemote(method,parameters='',host='127.0.0.1',port='8080'):
     headers = {"Content-Type":"application/json",}
     # Format the data
     data = json.dumps(values)
-    print('JSON Req: %s\n' % data)
+
+    #print('JSON Req: %s\n' % data)
+
     # Now we're just about ready to actually initiate the connection
     req = urllib2.Request(url, data, headers)
-    print('HTTP Req: %s\n' % req)
+    #print('HTTP Req: %s\n' % req)
+
     # This fork kicks in only if both a username & password are provided
     #if username and password:
         # This properly formats the provided username & password and adds them to the request header

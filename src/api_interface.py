@@ -2,6 +2,8 @@ import time
 import urllib2
 import json
 
+DEBUG = False
+
 from api_wrapper import *
 
 '''
@@ -46,13 +48,13 @@ def playback_vol_inc():
     parameters = {"properties": ["volume"]}
     try:
         volume = getJsonRemote(method, parameters)['volume']
-        print(volume)
+        if DEBUG : print(volume)
         volume = int(volume) + 5
         method = 'Application.SetVolume'
         parameters = {"volume": volume}
         getJsonRemote(method, parameters)
     except:
-        return
+        return None
 
 
 def playback_vol_dec():
@@ -60,25 +62,25 @@ def playback_vol_dec():
     parameters = {"properties": ["volume"]}
     try:
         volume = getJsonRemote(method, parameters)['volume']
-        print(volume)
+        if DEBUG : print(volume)
         volume = int(volume) - 5
         method = 'Application.SetVolume'
         parameters = {"volume": volume}
         getJsonRemote(method, parameters)
     except:
-        return
+        return None
 
 
 def playback_find_player():
     method = 'Player.GetActivePlayers'
     player_list = getJsonRemote(method)
-    print(player_list)
+    if DEBUG : print(player_list)
     try :
         player_id = player_list[0]['playerid']
         return player_id
     except IndexError:
         print("No players active")
-        return
+        return None
 
 
 def playback_toggle_play(): 

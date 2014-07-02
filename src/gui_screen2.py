@@ -8,6 +8,8 @@ from gui_button import *
 from api_interface import *
 import pygame
 
+DEBUG = False
+
 def init():
     global menu
 
@@ -65,32 +67,32 @@ def handle_event(mouse):
     global menu
 
     if menu['btn1'].obj.collidepoint(mouse):
-        print('button 1 clicked')
+        if DEBUG : print('button 1 clicked')
         playback_vol_inc()
             
     elif menu['btn2'].obj.collidepoint(mouse):
-        print('button 2 clicked')
+        if DEBUG : print('button 2 clicked')
         playback_vol_dec()
                   
     elif menu['btn3'].obj.collidepoint(mouse):
-        print('button 3 clicked')
+        if DEBUG : print('button 3 clicked')
         playback_toggle_play()
         
     elif menu['btn4'].obj.collidepoint(mouse):
-        print('button 4 clicked')
+        if DEBUG : print('button 4 clicked')
         playback_rewind()
             
     elif menu['btn5'].obj.collidepoint(mouse):
-        print('button 5 clicked')
+        if DEBUG : print('button 5 clicked')
         playback_stop()
         return 1
 
     elif menu['btn6'].obj.collidepoint(mouse):
-        print('button 6 clicked')
+        if DEBUG : print('button 6 clicked')
         playback_forward()
 
     elif menu['btn7'].obj.collidepoint(mouse):
-        print('button 7 clicked')
+        if DEBUG : print('button 7 clicked')
         return 1
     
     return 2

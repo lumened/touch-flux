@@ -3,9 +3,12 @@
 #  init()
 #  draw()
 #  handle_event()
+import time
 
 from gui_button import *
 from api_interface import *
+
+DEBUG = False
 
 def init():
     global menu
@@ -53,39 +56,42 @@ def handle_event(mouse):
     global menu
 
     if menu['btn1'].obj.collidepoint(mouse):
-        print('button 1 clicked')
+        if DEBUG : print('button 1 clicked')
         return 2
             
     elif menu['btn2'].obj.collidepoint(mouse):
-        print('button 2 clicked')
+        if DEBUG : print('button 2 clicked')
         playback_vol_dec()
                   
     elif menu['btn3'].obj.collidepoint(mouse):
-        print('button 3 clicked')
+        if DEBUG : print('button 3 clicked')
         nav_back()
         
     elif menu['btn4'].obj.collidepoint(mouse):
-        print('button 4 clicked')
+        if DEBUG : print('button 4 clicked')
 #        playback_toggle_play()
             
     elif menu['btn5'].obj.collidepoint(mouse):
-        print('button 5 clicked')
+        if DEBUG : print('button 5 clicked')
         nav_select()
+        time.sleep(0.50)
+        if playback_find_player() is not None:
+            return 2
 
     elif menu['btn6'].obj.collidepoint(mouse):
-        print('button 6 clicked')
+        if DEBUG : print('button 6 clicked')
         nav_up()
 
     elif menu['btn7'].obj.collidepoint(mouse):
-        print('button 7 clicked')
+        if DEBUG : print('button 7 clicked')
         nav_left()
 
     elif menu['btn8'].obj.collidepoint(mouse):
-        print('button 8 clicked')
+        if DEBUG : print('button 8 clicked')
         nav_down()
 
     elif menu['btn9'].obj.collidepoint(mouse):
-        print('button 9 clicked')
+        if DEBUG : print('button 9 clicked')
         nav_right()
     
     return 1
