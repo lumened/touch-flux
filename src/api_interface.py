@@ -87,6 +87,13 @@ def playback_toggle_play():
     method = 'Player.PlayPause'
     parameters = {"playerid": player_id} 
     getJsonRemote(method, parameters)
+
+def playback_stop(): 
+    player_id = playback_find_player()
+    if player_id == None : return
+    method = 'Player.Stop'
+    parameters = {"playerid": player_id} 
+    getJsonRemote(method, parameters)
     
 def playback_percentage():
     player_id = playback_find_player()

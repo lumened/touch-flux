@@ -83,6 +83,7 @@ def handle_event(mouse):
     elif menu['btn5'].obj.collidepoint(mouse):
         print('button 5 clicked')
         playback_stop()
+        return 1
 
     elif menu['btn6'].obj.collidepoint(mouse):
         print('button 6 clicked')
