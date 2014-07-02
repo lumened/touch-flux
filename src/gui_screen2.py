@@ -28,6 +28,9 @@ def init():
 
 def draw(screen, mouse):
     global menu
+
+    global switch_screen
+    switch_screen = False
     
     x = 10
     y = 105
@@ -49,23 +52,31 @@ def draw(screen, mouse):
 
     ##Progressbar
     pygame.draw.rect(screen, colors['white'],(5,70,310,25))
-    percentage = playback_percentage()/100
+    try :
+        percentage = playback_percentage()/100
+        time, total_time = playback_time()
+    except:
+        switch_screen = True
+        return 1
+
     pygame.draw.rect(screen, colors['maroon'] , (7,72,percentage*306,21))
     
     ##Playback Status - Title + Time
     font = pygame.font.Font(None, 20)
     title = font.render(playback_title(), 1, (255,255,255))
-    time, total_time = playback_time()
     time = font.render(time + '/' + total_time, 1, (255,255,255))
     screen.blit(title, (10,20))
     screen.blit(time, (10,40))
 
-    return None
+    return 2
 
 
 def handle_event(mouse):
     global menu
+    global switch_screen
 
+    if switch_screen : return 1
+    
     if menu['btn1'].obj.collidepoint(mouse):
         if DEBUG : print('button 1 clicked')
         playback_vol_inc()

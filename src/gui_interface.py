@@ -69,8 +69,8 @@ def update_gui():
    screen.fill((0xFF,0x33,0x00)) #Background Color
    mouse = pygame.mouse.get_pos()
 
-   if active_screen == 1 :   gui_screen1.draw(screen, mouse)
-   elif active_screen == 2 : gui_screen2.draw(screen, mouse)
+   if active_screen == 1 :   active_screen = gui_screen1.draw(screen, mouse)
+   elif active_screen == 2 : active_screen = gui_screen2.draw(screen, mouse)
 
    for event in pygame.event.get():
       if event.type == pygame.QUIT:

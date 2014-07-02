@@ -49,7 +49,7 @@ def draw(screen, mouse):
     menu['btn8'].draw_triangle(screen, mouse, [[160,240],[120,170],[200,170]],(125,33))  #down
     menu['btn9'].draw_triangle(screen, mouse, [[280,120],[210,80],[210,160]],(125,33))      #right 
           #btn.check_hover(mouse)
-    return None
+    return 1
 
 
 def handle_event(mouse):
