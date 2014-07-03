@@ -6,7 +6,7 @@
 
 from gui_button import *
 from api_interface import *
-import config
+import config, custom_events
 import pygame
 
 DEBUG = False
@@ -30,8 +30,8 @@ def init():
 def draw(screen, mouse):
     global menu
 
-    global switch_screen
-    switch_screen = False
+#    global switch_screen
+#    switch_screen = False
     
     x = 10
     y = 105
@@ -53,8 +53,9 @@ def draw(screen, mouse):
         percentage = playback_percentage()/100
         time, total_time = playback_time()
     except: #Else, switch to screen 1
-        switch_screen = True
-        return 1
+        pygame.event.post(custom_events.SWITCH_TO_NAVIGATION)
+#        switch_screen = True
+        return None
 
     ##Progressbar
     pygame.draw.rect(screen, config.colors['white'],(5,70,310,25))
@@ -67,14 +68,14 @@ def draw(screen, mouse):
     screen.blit(title, (10,15))
     screen.blit(time, (10,40))
 
-    return 2
+    return None
 
 
 def handle_event(mouse):
     global menu
-    global switch_screen
+#    global switch_screen
 
-    if switch_screen : return 1
+#    if switch_screen : return 1
     
     if menu['btn1'].obj.collidepoint(mouse):
         if DEBUG : print('button 1 clicked')
@@ -95,7 +96,8 @@ def handle_event(mouse):
     elif menu['btn5'].obj.collidepoint(mouse):
         if DEBUG : print('button 5 clicked')
         playback_stop()
-        return 1
+        pygame.event.post(custom_events.SWITCH_TO_NAVIGATION)
+#        return 1
 
     elif menu['btn6'].obj.collidepoint(mouse):
         if DEBUG : print('button 6 clicked')
@@ -103,6 +105,7 @@ def handle_event(mouse):
 
     elif menu['btn7'].obj.collidepoint(mouse):
         if DEBUG : print('button 7 clicked')
-        return 1
+        pygame.event.post(custom_events.SWITCH_TO_NAVIGATION)
+#        return 1
     
-    return 2
+    return None

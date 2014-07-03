@@ -7,6 +7,7 @@ import time
 
 from gui_button import *
 from api_interface import *
+import custom_events
 
 DEBUG = False
 
@@ -49,7 +50,7 @@ def draw(screen, mouse):
     menu['btn8'].draw_triangle(screen, mouse, [[160,240],[120,170],[200,170]],(125,33))  #down
     menu['btn9'].draw_triangle(screen, mouse, [[280,120],[210,80],[210,160]],(125,33))      #right 
           #btn.check_hover(mouse)
-    return 1
+    return None
 
 
 def handle_event(mouse):
@@ -57,7 +58,8 @@ def handle_event(mouse):
 
     if menu['btn1'].obj.collidepoint(mouse):
         if DEBUG : print('button 1 clicked')
-        return 2
+        pygame.event.post(custom_events.SWITCH_TO_PLAYBACK)
+#        return 2
             
     elif menu['btn2'].obj.collidepoint(mouse):
         if DEBUG : print('button 2 clicked')
@@ -74,7 +76,8 @@ def handle_event(mouse):
         nav_select()
         time.sleep(0.50)
         if playback_find_player() is not None:
-            return 2
+            pygame.event.post(custom_events.SWITCH_TO_PLAYBACK)
+#            return 2
 
     elif menu['btn6'].obj.collidepoint(mouse):
         if DEBUG : print('button 6 clicked')
@@ -92,4 +95,4 @@ def handle_event(mouse):
         if DEBUG : print('button 9 clicked')
         nav_right()
     
-    return 1
+    return None

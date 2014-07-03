@@ -3,6 +3,7 @@ INDEP = True #To test outside of XBMC
 
 import pygame, os, time, sys
 import gui_screen1, gui_screen2
+import custom_events,config
 
 def start_gui():
    
@@ -70,8 +71,10 @@ def update_gui():
    screen.fill((0xFF,0x33,0x00)) #Background Color
    mouse = pygame.mouse.get_pos()
 
-   if active_screen == 1 :   active_screen = gui_screen1.draw(screen, mouse)
-   elif active_screen == 2 : active_screen = gui_screen2.draw(screen, mouse)
+   if active_screen == 1 :   #active_screen = 
+      gui_screen1.draw(screen, mouse)
+   elif active_screen == 2 : #active_screen = 
+      gui_screen2.draw(screen, mouse)
 
    for event in pygame.event.get():
       if event.type == pygame.QUIT:
@@ -79,8 +82,16 @@ def update_gui():
          sys.exit()
       if event.type == pygame.MOUSEBUTTONDOWN:
          mouse = pygame.mouse.get_pos()
-         if active_screen == 1 :   active_screen = gui_screen1.handle_event(mouse)
-         elif active_screen == 2 : active_screen = gui_screen2.handle_event(mouse)
+         if active_screen == 1 :   #active_screen = 
+            gui_screen1.handle_event(mouse)
+         elif active_screen == 2 : #active_screen = 
+            gui_screen2.handle_event(mouse)
+      if event == custom_events.SWITCH_TO_PLAYBACK :
+         print "Custom Event"
+         active_screen = config.screen_ids['playback']
+      if event == custom_events.SWITCH_TO_NAVIGATION :
+         print "Custom Event"
+         active_screen = config.screen_ids['navigation']
               
 
    pygame.display.update()
