@@ -33,6 +33,11 @@ def init():
 def draw(screen, mouse):
     global menu
 
+    if not config.manual_switch and playback_find_player() is not None :
+        pygame.event.post(custom_events.SWITCH_TO_PLAYBACK)
+        return None
+
+
     x = 10
     y = 10
     
@@ -56,6 +61,9 @@ def draw(screen, mouse):
 def handle_event(mouse):
     global menu
 
+#    if playback_find_player() is not None :
+#        pygame.event.post(custom_events.SWITCH_TO_PLAYBACK)
+
     if menu['btn1'].obj.collidepoint(mouse):
         if DEBUG : print('button 1 clicked')
         pygame.event.post(custom_events.SWITCH_TO_PLAYBACK)
@@ -74,9 +82,9 @@ def handle_event(mouse):
     elif menu['btn5'].obj.collidepoint(mouse):
         if DEBUG : print('button 5 clicked')
         nav_select()
-        time.sleep(0.50)
-        if playback_find_player() is not None:
-            pygame.event.post(custom_events.SWITCH_TO_PLAYBACK)
+#        time.sleep(0.50)
+#        if playback_find_player() is not None:
+#            pygame.event.post(custom_events.SWITCH_TO_PLAYBACK)
 #            return 2
 
     elif menu['btn6'].obj.collidepoint(mouse):

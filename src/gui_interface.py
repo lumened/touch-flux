@@ -29,8 +29,8 @@ def start_gui():
    if disp_no: print "I'm running under X display = {0}".format(disp_no)
       
    # Start with fbcon since directfb hangs with composite output
-   drivers = [ 'fbcon', 'svgalib', 'directfb' ]
-   found = False
+#   drivers = [ 'fbcon', 'svgalib', 'directfb' ]
+#   found = False
    pygame.init()
    print os.getenv('SDL_VIDEODRIVER')
    if INDEP:
@@ -82,9 +82,9 @@ def update_gui():
          sys.exit()
       if event.type == pygame.MOUSEBUTTONDOWN:
          mouse = pygame.mouse.get_pos()
-         if active_screen == 1 :   #active_screen = 
+         if active_screen == config.screen_ids['navigation'] :   #active_screen = 
             gui_screen1.handle_event(mouse)
-         elif active_screen == 2 : #active_screen = 
+         elif active_screen == config.screen_ids['playback'] : #active_screen = 
             gui_screen2.handle_event(mouse)
       if event == custom_events.SWITCH_TO_PLAYBACK :
          print "Custom Event"

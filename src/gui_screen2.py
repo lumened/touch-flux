@@ -53,7 +53,9 @@ def draw(screen, mouse):
         percentage = playback_percentage()/100
         time, total_time = playback_time()
     except: #Else, switch to screen 1
+        config.manual_switch = False
         pygame.event.post(custom_events.SWITCH_TO_NAVIGATION)
+
 #        switch_screen = True
         return None
 
@@ -96,6 +98,7 @@ def handle_event(mouse):
     elif menu['btn5'].obj.collidepoint(mouse):
         if DEBUG : print('button 5 clicked')
         playback_stop()
+        config.manual_switch = False
         pygame.event.post(custom_events.SWITCH_TO_NAVIGATION)
 #        return 1
 
@@ -106,6 +109,7 @@ def handle_event(mouse):
     elif menu['btn7'].obj.collidepoint(mouse):
         if DEBUG : print('button 7 clicked')
         pygame.event.post(custom_events.SWITCH_TO_NAVIGATION)
+        config.manual_switch = True
 #        return 1
     
     return None
