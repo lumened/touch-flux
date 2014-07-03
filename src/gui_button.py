@@ -1,15 +1,16 @@
 import pygame, os, time
-
 from pygame import *
+
+import config
 
 class Button:
 
    def __init__(self, text, icon = None):
       self.text = text
       self.is_hover = False
-      self.default_color = (0xFF,0xE6,0xB3) #Buttons' Color
-      self.hover_color = (0x88,0,0)
-      self.font_color = (0xFF,0x33,0x00) #Text Color
+      self.default_color = config.colors['white'] #Buttons' Color
+      self.hover_color = config.colors['maroon']
+      self.font_color = config.colors['orange'] #Text Color
       self.obj = None
       self.icon = icon
       
@@ -29,10 +30,13 @@ class Button:
       '''create rect obj, draw, and change color based on input'''
       #self.obj  = pygame.draw.rect(screen, self.color(), rectcoord)
       self.obj  = self.AAfilledRoundedRect(screen, rectcoord, self.color())
-      if self.icon is None : screen.blit(self.label(), labelcoord)
-      else : 
+      #if self.icon is None : screen.blit(self.label(), labelcoord)
+      #else : 
+      try:
          img = pygame.image.load(self.icon)
          screen.blit(img, labelcoord)
+      except:
+         screen.blit(self.label(), labelcoord)
          
       #change color if mouse over button
       self.check_hover(mouse)

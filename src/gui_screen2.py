@@ -6,6 +6,7 @@
 
 from gui_button import *
 from api_interface import *
+import config
 import pygame
 
 DEBUG = False
@@ -35,8 +36,6 @@ def draw(screen, mouse):
     x = 10
     y = 105
     button_height, button_width = (80,60) 
-    
-    colors = {'orange':(0xFF,0x33,0x00), 'white':(0xFF,0xE6,0xB3), 'maroon':(0x88,0x00,0x00)}
 
 
     menu['btn1'].draw_rect(screen, mouse, (x,y,button_height, button_width), (x,y))
@@ -58,13 +57,13 @@ def draw(screen, mouse):
         return 1
 
     ##Progressbar
-    pygame.draw.rect(screen, colors['white'],(5,70,310,25))
-    pygame.draw.rect(screen, colors['maroon'] , (7,72,percentage*306,21))
+    pygame.draw.rect(screen, config.colors['white'],(5,70,310,25))
+    pygame.draw.rect(screen, config.colors['maroon'] , (7,72,percentage*306,21))
     
     ##Playback Status - Title + Time
     font = pygame.font.Font(None, 22)
-    title = font.render(playback_title(), 1, colors['white'])
-    time = font.render(time + '/' + total_time, 1, colors['white'])
+    title = font.render(playback_title(), 1, config.colors['white'])
+    time = font.render(time + '/' + total_time, 1, config.colors['white'])
     screen.blit(title, (10,15))
     screen.blit(time, (10,40))
 
