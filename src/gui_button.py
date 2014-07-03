@@ -69,7 +69,7 @@ class Button:
       
       circle       = Surface([min(rect.size)*3]*2,SRCALPHA)
       draw.ellipse(circle,(0,0,0),circle.get_rect(),0)
-      circle       = transform.smoothscale(circle,[int(min(rect.size)*radius)]*2)
+      circle       = transform.scale(circle,[int(min(rect.size)*radius)]*2)
       
       radius              = rectangle.blit(circle,(0,0))
       radius.bottomright  = rect.bottomright

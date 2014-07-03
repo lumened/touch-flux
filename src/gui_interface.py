@@ -49,6 +49,7 @@ def start_gui():
    # render the screen
    pygame.display.update()
 
+   pygame.mouse.set_visible(False)
    #Initialising the screens
    gui_screen1.init()
    gui_screen2.init()
