@@ -12,4 +12,4 @@ screen_ids = {'navigation':1, 'playback':2, 'camera':3}
 # Variables
 
 #During playback, if user switches to navigation then this is used to prevent the system from switching back to the playback screen till the user chooses to do so.
-manual_switch = False
+manual_switch = True

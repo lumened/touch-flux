@@ -36,7 +36,8 @@ class Button:
          img = pygame.image.load(self.icon)
          screen.blit(img, labelcoord)
       except:
-         screen.blit(self.label(), labelcoord)
+#         screen.blit(self.label(), labelcoord)
+         print "exception" 
          
       #change color if mouse over button
       self.check_hover(mouse)
