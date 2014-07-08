@@ -104,4 +104,6 @@ def update_gui():
    return None
 
 def startup_sequence():
-   pass
+   #Show Logo
+   #Delay 
+   #

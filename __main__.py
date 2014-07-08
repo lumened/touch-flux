@@ -3,7 +3,7 @@
 import time
 import json
 
-#from src.api_interface import *
+from src.api_interface import push_notification
 import src.gui_interface
 
 #def notify_start():
@@ -14,7 +14,7 @@ import src.gui_interface
 #    ('Notification(%s, %s, %d, %s)'%(__addonname__,line1, time_delay, __icon__))
 
 
-#notify_start()   
+push_notification('Touch for Flux Active', 'Touchscreen handler is now active')
 
 src.gui_interface.start_gui()
 

@@ -168,3 +168,9 @@ def playback_properties():
     parameters = {"playerid": player_id, "properties":["percentage","time"]} 
     result = getJsonRemote(method, parameters)
     return result
+
+
+def push_notification(title, text):
+    method = 'GUI.ShowNotification'
+    parameters = {'title':title,'message':text}
+    getJsonRemote(method, parameters)
