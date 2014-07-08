@@ -77,6 +77,7 @@ def handle_event(mouse):
         nav_back()
         
     elif menu['btn4'].obj.collidepoint(mouse):
+        pygame.event.post(custom_events.SWITCH_TO_CAMERA)
         if DEBUG : print('button 4 clicked')
             
     elif menu['btn5'].obj.collidepoint(mouse):
