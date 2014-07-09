@@ -1,5 +1,5 @@
 #Switches
-INDEP = True #To test outside of XBMC
+INDEP = False #To test outside of XBMC
 
 import pygame, os, time, sys
 import gui_screen1, gui_screen2
