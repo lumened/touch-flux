@@ -124,6 +124,18 @@ def playback_percentage():
     except:
         return None
 
+def playback_speed():
+    player_id = playback_find_player()
+    if player_id == None : return
+    method = 'Player.GetProperties'
+    parameters = {"playerid": player_id, "properties":["speed"]} 
+    result = getJsonRemote(method, parameters)
+    try:
+        return result['speed']
+    except:
+        return None
+
+
 def playback_time():
     player_id = playback_find_player()
     if player_id == None : return
@@ -165,6 +177,6 @@ def playback_properties():
     player_id = playback_find_player()
     if player_id == None : return
     method = 'Player.GetProperties'
-    parameters = {"playerid": player_id, "properties":["percentage","time"]} 
+    parameters = {"playerid": player_id, "properties":["percentage","time","speed"]} 
     result = getJsonRemote(method, parameters)
     return result
