@@ -1,0 +1,3 @@
+[submodule "src/battmonitor"]
+	path = src/battmonitor
+	url = https://github.com/lumened/battmonitor.git

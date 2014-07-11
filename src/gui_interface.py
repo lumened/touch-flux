@@ -1,15 +1,19 @@
-#Switches
-INDEP = True #To test outside of XBMC
-
-import pygame, os, time, sys
+import pygame, os, time, sys, platform
 import gui_screen1, gui_screen2
 import custom_events,config
 
 def start_gui():
    
+   global INDEP
    global screen
    global clock
    global active_screen
+
+
+   for x in platform.uname():
+	if 'raspbmc' in x: INDEP = False #To test outside of XBMC
+        else : INDEP = True
+
 
    if not INDEP :
       os.environ["TSLIB_TSDEVICE"] = "/dev/input/event0"
@@ -28,9 +32,6 @@ def start_gui():
    disp_no = os.getenv("DISPLAY")
    if disp_no: print "I'm running under X display = {0}".format(disp_no)
       
-   # Start with fbcon since directfb hangs with composite output
-#   drivers = [ 'fbcon', 'svgalib', 'directfb' ]
-#   found = False
    pygame.init()
    print os.getenv('SDL_VIDEODRIVER')
    if INDEP:
