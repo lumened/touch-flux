@@ -1,3 +1,4 @@
+
 import pygame, os, time, sys, platform
 import gui_screen1, gui_screen2
 import custom_events,config
@@ -60,7 +61,11 @@ def start_gui():
    #screen = pygame.display.set_mode((320,240))
    clock = pygame.time.Clock()
 
+   #Startup Animation
+   startup_sequence()
+
    active_screen = 1 #Startup Menu
+
    return None
 
 
@@ -99,3 +104,6 @@ def update_gui():
    clock.tick(60)
 
    return None
+
+def startup_sequence():
+   pass
