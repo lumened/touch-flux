@@ -12,11 +12,17 @@ def start_gui():
 
 
    for x in platform.uname():
-	if 'raspbmc' in x: INDEP = False #To test outside of XBMC
-        else : INDEP = True
+      if 'raspbmc' in x: 
+         print("Starting in RaspBMC")
+         INDEP = False #To test outside of XBMC
+         break
+      else : INDEP = True
 
-
+      
+   #INDEP = False
+   print(INDEP)
    if not INDEP :
+      print("Initializing variables")
       os.environ["TSLIB_TSDEVICE"] = "/dev/input/event0"
       os.environ["TSLIB_TSEVENTTYPE"] = "INPUT"
       os.environ["TSLIB_CONFFILE"] = "/etc/ts.conf"
