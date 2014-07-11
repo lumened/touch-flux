@@ -78,7 +78,7 @@ def playback_find_player():
     try :
         player_id = player_list[0]['playerid']
         return player_id
-    except IndexError or TypeError:
+    except (IndexError, TypeError):
         if DEBUG : print("No players active")
         return None
 
