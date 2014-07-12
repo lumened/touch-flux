@@ -19,13 +19,13 @@ def init():
     menu['btn1'] = Button('+', './icons/vol-up.png') #Vol Up
     menu['btn2'] = Button('-', './icons/vol-down.png') #Vol Down
 
-    menu['btn3'] = Button('Play', './icons/play.png')#Back
-    menu['btn8'] = Button('Pause', './icons/pause.png')#Back
+    menu['btn3'] = Button('Play', './icons/play.png')
+    menu['btn8'] = Button('Pause', './icons/pause.png')
 
-    menu['btn4'] = Button('Back', './icons/rewind.png')#Play/Pause
+    menu['btn4'] = Button('Rewind', './icons/rewind.png')
     menu['btn5'] = Button('Stop','./icons/stop.png')#Stop
-    menu['btn6'] = Button('Forward', './icons/forward.png')#'Button 6(Up)')
-    menu['btn7'] = Button('Nav', './icons/right.png')#Button 6(Up)')
+    menu['btn6'] = Button('Forward', './icons/forward.png')
+    menu['btn7'] = Button('Back', './icons/right.png')
     
     return None
 
@@ -47,7 +47,7 @@ def draw(screen, mouse):
     menu['btn5'].draw_rect(screen, mouse, (x+220,y,button_height, button_width), (x+220,y))
     menu['btn6'].draw_rect(screen, mouse, (x+220,y+70,button_height, button_width), (x+220,y+70))
 
-    menu['btn7'].draw_rect(screen, mouse, (x+220,5,button_height, button_width), (x+220,5))
+    menu['btn7'].draw_rect(screen, mouse, (x,5,button_height, button_width), (x,5))
     
     #Live Update Area
 
@@ -70,8 +70,8 @@ def draw(screen, mouse):
     font = pygame.font.Font(None, 22)
     title = font.render(playback_title(), 1, config.colors['white'])
     time = font.render(time + '/' + total_time, 1, config.colors['white'])
-    screen.blit(title, (10,15))
-    screen.blit(time, (10,40))
+    screen.blit(title, (100+10,15))
+    screen.blit(time, (100+10,40))
 
     ##Play Pause Buttons : Require live update due to navigation options
     if speed==0 : menu['btn3'].draw_rect(screen, mouse, (x+110, y,button_height, button_width), (x+110, y))
