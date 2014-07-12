@@ -18,7 +18,7 @@ import base64
 #parameters = {"addonid":"script.artwork.downloader", "params":{"silent":"true"}, "wait":True}
 
 
-def getJsonRemote(method,parameters='',host='127.0.0.1',port='80'):
+def getJsonRemote(method,parameters='',host='127.0.0.1',port='8080'):
     ''' Wrapper for HTML JSON requests for XBMC '''
     
     # First we build the URL we're going to talk to

@@ -15,7 +15,7 @@ def init():
     menu = {}
 #Defining rectangular buttons
     menu['btn1'] = Button('Shutdown', './icons/shutdown.png')
-    menu['btn2'] = Button('Restart', './icons/vol-down.png')
+    menu['btn2'] = Button('Restart', './icons/reboot.png')
 
     menu['btn3a'] = Button('Projector Off', './icons/projector-off.png')
     menu['btn3b'] = Button('Projector On', './icons/projector-on.png')
@@ -31,7 +31,7 @@ def init():
 def draw(screen, mouse):
     global menu
    
-    x = 10
+    x = 50
     y = 105
     button_height, button_width = (80,60) 
 
@@ -41,7 +41,7 @@ def draw(screen, mouse):
 #    menu['btn5'].draw_rect(screen, mouse, (x+220,y,button_height, button_width), (x+220,y))
 #    menu['btn6'].draw_rect(screen, mouse, (x+220,y+70,button_height, button_width), (x+220,y+70))
 
-    menu['btn7'].draw_rect(screen, mouse, (x,5,button_height, button_width), (x,5))
+    menu['btn7'].draw_rect(screen, mouse, (10,5,button_height, button_width), (10,5))
     
     #Live Update Area
 
@@ -68,39 +68,40 @@ def draw(screen, mouse):
     #screen.blit(time, (10,40))
 
     ##Projector On/Off
-    if config.projector : menu['btn3a'].draw_rect(screen, mouse, (x+110, y,button_height, button_width), (x+110, y))
-    else: menu['btn3b'].draw_rect(screen, mouse, (x+110, y,button_height, button_width), (x+110, y))
+    if config.projector : menu['btn3a'].draw_rect(screen, mouse, (x+140, y,button_height, button_width), (x+140, y))
+    else: menu['btn3b'].draw_rect(screen, mouse, (x+140, y,button_height, button_width), (x+140, y))
     
     ##Charging On/Off
-    if not config.charging : menu['btn4a'].draw_rect(screen, mouse, (x+110,y+70,button_height, button_width), (x+110,y+70))
-    else : menu['btn4b'].draw_rect(screen, mouse, (x+110,y+70,button_height, button_width), (x+110,y+70))
+    if not config.charging : menu['btn4a'].draw_rect(screen, mouse, (x+140,y+70,button_height, button_width), (x+140,y+70))
+    else : menu['btn4b'].draw_rect(screen, mouse, (x+140,y+70,button_height, button_width), (x+140,y+70))
 
 
     return None
 
 
 def handle_event(mouse):
-    global menu
+    global menu    
     
+    print(config.projector)
+
     if menu['btn1'].obj.collidepoint(mouse):
         if config.DEBUG : print('Activate Shutdown')
         
-
-            
+    
     elif menu['btn2'].obj.collidepoint(mouse):
         if config.DEBUG : print('Reboot')
 
                   
-    elif config.projector and menu['btn3a'].obj.collidepoint(mouse) or menu['btn3b'].obj.collidepoint(mouse):
+    elif (config.projector and menu['btn3a'].obj.collidepoint(mouse)) or (not config.projector and menu['btn3b'].obj.collidepoint(mouse)) :
         if config.DEBUG : print('Projector Power Toggle')
         #Toggle Projector State
-        config.projector = False if config.projector else False
+        config.projector = False if config.projector else True
         
 
-    elif not config.charging and menu['btn4a'].obj.collidepoint(mouse) or menu['btn4b'].obj.collidepoint(mouse):
+    elif (not config.charging and menu['btn4a'].obj.collidepoint(mouse)) or (config.charging and menu['btn4b'].obj.collidepoint(mouse)) :
         if config.DEBUG : print('Charging Toggle')
         #Toggle Projector State
-        config.charging = False if config.charging else False
+        config.charging = False if config.charging else True
 
             
 #    elif menu['btn5'].obj.collidepoint(mouse):
@@ -115,7 +116,7 @@ def handle_event(mouse):
 #        playback_forward()
 
     elif menu['btn7'].obj.collidepoint(mouse):
-        if config.DEBUG : print('button 7 clicked')
+        if config.DEBUG : print('Switch to Nav')
         pygame.event.post(custom_events.SWITCH_TO_NAVIGATION)
         config.manual_switch = True
     

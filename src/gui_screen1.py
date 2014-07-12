@@ -7,9 +7,8 @@ import time
 
 from gui_button import *
 from api_interface import *
-import custom_events
+import config, custom_events
 
-DEBUG = False
 
 def init():
     global menu
@@ -65,22 +64,23 @@ def handle_event(mouse):
 #        pygame.event.post(custom_events.SWITCH_TO_PLAYBACK)
 
     if menu['btn1'].obj.collidepoint(mouse):
-        if DEBUG : print('button 1 clicked')
+        if config.DEBUG : print('button 1 clicked')
         pygame.event.post(custom_events.SWITCH_TO_PLAYBACK)
-#        return 2
+
             
     elif menu['btn2'].obj.collidepoint(mouse):
-        if DEBUG : print('button 2 clicked')
+        if config.DEBUG : print('button 2 clicked')
+        pygame.event.post(custom_events.SWITCH_TO_POWER)
                   
     elif menu['btn3'].obj.collidepoint(mouse):
-        if DEBUG : print('button 3 clicked')
+        if config.DEBUG : print('button 3 clicked')
         nav_back()
         
     elif menu['btn4'].obj.collidepoint(mouse):
-        if DEBUG : print('button 4 clicked')
+        if config.DEBUG : print('button 4 clicked')
             
     elif menu['btn5'].obj.collidepoint(mouse):
-        if DEBUG : print('button 5 clicked')
+        if config.DEBUG : print('button 5 clicked')
         nav_select()
 #        time.sleep(0.50)
 #        if playback_find_player() is not None:
@@ -88,19 +88,19 @@ def handle_event(mouse):
 #            return 2
 
     elif menu['btn6'].obj.collidepoint(mouse):
-        if DEBUG : print('button 6 clicked')
+        if config.DEBUG : print('button 6 clicked')
         nav_up()
 
     elif menu['btn7'].obj.collidepoint(mouse):
-        if DEBUG : print('button 7 clicked')
+        if config.DEBUG : print('button 7 clicked')
         nav_left()
 
     elif menu['btn8'].obj.collidepoint(mouse):
-        if DEBUG : print('button 8 clicked')
+        if config.DEBUG : print('button 8 clicked')
         nav_down()
 
     elif menu['btn9'].obj.collidepoint(mouse):
-        if DEBUG : print('button 9 clicked')
+        if config.DEBUG : print('button 9 clicked')
         nav_right()
     
     return None
