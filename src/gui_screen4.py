@@ -43,6 +43,9 @@ def draw(screen, mouse):
 
     menu['btn7'].draw_rect(screen, mouse, (10,5,button_height, button_width), (10,5))
     
+    font = pygame.font.Font(None, 22)
+    screen.blit(font.render("Power Menu", 1, config.colors['white']), (140,15))
+
     #Live Update Area
 
     #try : #If available, update
