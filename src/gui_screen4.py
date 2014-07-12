@@ -15,7 +15,7 @@ def init():
     menu = {}
 #Defining rectangular buttons
     menu['btn1'] = Button('Shutdown', './icons/shutdown.png')
-    menu['btn2'] = Button('Restart', './icons/reboot.png')
+#    menu['btn2'] = Button('Restart', './icons/reboot.png')
 
     menu['btn3a'] = Button('Projector Off', './icons/projector-off.png')
     menu['btn3b'] = Button('Projector On', './icons/projector-on.png')
@@ -31,17 +31,17 @@ def init():
 def draw(screen, mouse):
     global menu
    
-    x = 50
+    x = 10
     y = 105
     button_height, button_width = (80,60) 
 
     menu['btn1'].draw_rect(screen, mouse, (x,y,button_height, button_width), (x,y))
-    menu['btn2'].draw_rect(screen, mouse, (x,y+70,button_height, button_width), (x,y+70))
+#    menu['btn2'].draw_rect(screen, mouse, (x,y+70,button_height, button_width), (x,y+70))
    
 #    menu['btn5'].draw_rect(screen, mouse, (x+220,y,button_height, button_width), (x+220,y))
 #    menu['btn6'].draw_rect(screen, mouse, (x+220,y+70,button_height, button_width), (x+220,y+70))
 
-    menu['btn7'].draw_rect(screen, mouse, (10,5,button_height, button_width), (10,5))
+    menu['btn7'].draw_rect(screen, mouse, (x,5,button_height, button_width), (x,5))
     
     font = pygame.font.Font(None, 22)
     screen.blit(font.render("Power Menu", 1, config.colors['white']), (140,15))
@@ -71,12 +71,12 @@ def draw(screen, mouse):
     #screen.blit(time, (10,40))
 
     ##Projector On/Off
-    if config.projector : menu['btn3a'].draw_rect(screen, mouse, (x+140, y,button_height, button_width), (x+140, y))
-    else: menu['btn3b'].draw_rect(screen, mouse, (x+140, y,button_height, button_width), (x+140, y))
+    if config.projector : menu['btn3a'].draw_rect(screen, mouse, (x+110, y,button_height, button_width), (x+110, y))
+    else: menu['btn3b'].draw_rect(screen, mouse, (x+110, y,button_height, button_width), (x+110, y))
     
     ##Charging On/Off
-    if not config.charging : menu['btn4a'].draw_rect(screen, mouse, (x+140,y+70,button_height, button_width), (x+140,y+70))
-    else : menu['btn4b'].draw_rect(screen, mouse, (x+140,y+70,button_height, button_width), (x+140,y+70))
+    if not config.charging : menu['btn4a'].draw_rect(screen, mouse, (x+220,y,button_height, button_width), (x+220,y))
+    else : menu['btn4b'].draw_rect(screen, mouse, (x+220,y,button_height, button_width), (x+220,y))
 
 
     return None
@@ -91,8 +91,8 @@ def handle_event(mouse):
         if config.DEBUG : print('Activate Shutdown')
         
     
-    elif menu['btn2'].obj.collidepoint(mouse):
-        if config.DEBUG : print('Reboot')
+    #elif menu['btn2'].obj.collidepoint(mouse):
+    #    if config.DEBUG : print('Reboot')
 
                   
     elif (config.projector and menu['btn3a'].obj.collidepoint(mouse)) or (not config.projector and menu['btn3b'].obj.collidepoint(mouse)) :
