@@ -1,5 +1,5 @@
 #Switches
-INDEP = True #To test outside of XBMC
+INDEP = False #To test outside of XBMC
 
 import pygame, os, time, sys, threading
 import gui_screen1, gui_screen2, gui_screen3
@@ -10,7 +10,7 @@ def start_gui():
    global screen
    global clock
    global active_screen
-   global camera_preview   # for camera initialization deinitialization
+   global camera_on   # for camera initialization deinitialization
 
    if not INDEP :
       os.environ["TSLIB_TSDEVICE"] = "/dev/input/event0"
@@ -76,29 +76,37 @@ def update_gui():
    global clock
    global active_screen
    global camera_on 
-   global t
-   screen.fill((0xFF,0x33,0x00)) #Background Color
+#   global t
+   if not camera_on:
+       screen.fill((0xFF,0x33,0x00)) #Background Color
+   else:
+       gui_screen3.preview(screen)
    mouse = pygame.mouse.get_pos()
 
    if active_screen == 1 :   #active_screen =
       if camera_on:
-          t.join() 
+#          t.join() 
           gui_screen3.deinit_camera()
           camera_on = False
       gui_screen1.draw(screen, mouse)
    elif active_screen == 2 : #active_screen = 
       if camera_on:
-          t.join() 
+#          t.join() 
           gui_screen3.deinit_camera()
           camera_on = False
       gui_screen2.draw(screen, mouse)
    elif active_screen ==3:
       if not camera_on:
           gui_screen3.init_camera()  
-          t=threading.Thread(target = gui_screen3.preview)
-          t.start()
+#          t=threading.Thread(target = gui_screen3.preview)
+#          t.start()
           camera_on = True
-      gui_screen3.draw(screen, mouse)
+      if config.recording: 
+          gui_screen3.draw(screen, mouse, True)
+#          print config.recording
+      else:
+          gui_screen3.draw(screen, mouse, False)
+#          print config.recording
 
    for event in pygame.event.get():
       if event.type == pygame.QUIT:

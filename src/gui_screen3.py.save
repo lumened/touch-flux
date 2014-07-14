@@ -7,7 +7,7 @@ import time
 import atexit, io, os, picamera, yuv2rgb, picamera, pygame
 from gui_button import *
 from api_interface import *
-import custom_events
+import custom_events, config
 
 DEBUG = True
 
@@ -45,7 +45,7 @@ def init_camera():
     camera            = picamera.PiCamera()
 #    atexit.register(camera.close)
     camera.resolution = sizeData[sizeMode][1]
-    config.recording = False
+    recording = False
 
 def deinit_camera():
     global camera
@@ -70,14 +70,13 @@ def preview(screen):
 
 def record(): 
     global camera
-    if not config.recording:
+    if not recording:
         camera.start_recording('my_video.h264')
-        config.recording = True
+        recording = True
     else:
         camera.stop_recording()
-        config.recording = False
-   
-def draw(screen, mouse, transparent = False):
+
+def draw(screen, mouse):
     global menu
 
     x = 10
@@ -86,10 +85,10 @@ def draw(screen, mouse, transparent = False):
     height = 80 
     width = 60
 
-    menu['btn1'].draw_rect(screen, mouse, (x,y,height,width), (x,y), transparent)
-    menu['btn2'].draw_rect(screen, mouse, (x,y+160,height,width), (x,y+160), transparent)
-    menu['btn3'].draw_rect(screen, mouse, (x+110,y+160,height,width), (x+220,y+160), transparent)
-    menu['btn4'].draw_rect(screen, mouse, (x+220,y+160,height,width), (x+220,y), transparent)
+    menu['btn1'].draw_rect(screen, mouse, (x,y,height,width), (x,y))
+    menu['btn2'].draw_rect(screen, mouse, (x,y+160,height,width), (x,y+160))
+    menu['btn3'].draw_rect(screen, mouse, (x+110,y+160,height,width), (x+220,y+160))
+    menu['btn4'].draw_rect(screen, mouse, (x+220,y+160,height,width), (x+220,y))
           #btn.check_hover(mouse)
     return None
 

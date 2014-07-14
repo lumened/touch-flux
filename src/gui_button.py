@@ -26,24 +26,32 @@ class Button:
       else:
          return self.default_color
          
-   def draw_rect(self, screen, mouse, rectcoord, labelcoord):
+   def draw_rect(self, screen, mouse, rectcoord, labelcoord, transparent=False):
       '''create rect obj, draw, and change color based on input'''
       #self.obj  = pygame.draw.rect(screen, self.color(), rectcoord)
+      if transparent:
+          self.default_color = config.colors['transparent'] 
+      else:
+          self.default_color = config.colors['white'] #Buttons' Color
+          
       self.obj  = self.AAfilledRoundedRect(screen, rectcoord, self.color())
+  
+
       #if self.icon is None : screen.blit(self.label(), labelcoord)
       #else : 
       try:
          img = pygame.image.load(self.icon)
          screen.blit(img, labelcoord)
       except:
-#         screen.blit(self.label(), labelcoord)
-         print "exception" 
+         screen.blit(self.label(), labelcoord)
+#         print "exception" 
          
       #change color if mouse over button
       self.check_hover(mouse)
          
    def draw_triangle(self, screen, mouse, trianglecoord, labelcoord):
       self.obj = pygame.draw.polygon(screen, self.color(), trianglecoord)
+
       self.check_hover(mouse)
 
    def check_hover(self, mouse):
@@ -71,6 +79,7 @@ class Button:
       pos          = rect.topleft
       rect.topleft = 0,0
       rectangle    = Surface(rect.size,SRCALPHA)
+#      rectangle    = Surface(rect.size)
       
       circle       = Surface([min(rect.size)*3]*2,SRCALPHA)
       draw.ellipse(circle,(0,0,0),circle.get_rect(),0)
