@@ -6,7 +6,7 @@
 
 from gui_button import *
 from api_interface import *
-import config, custom_events
+import config, custom_events, api_projector
 import pygame
 
 def init():
@@ -98,7 +98,8 @@ def handle_event(mouse):
     elif (config.projector and menu['btn3a'].obj.collidepoint(mouse)) or (not config.projector and menu['btn3b'].obj.collidepoint(mouse)) :
         if config.DEBUG : print('Projector Power Toggle')
         #Toggle Projector State
-        config.projector = False if config.projector else True
+        #config.projector = False if config.projector else True #Handled in toggle_projector()
+        api_projector.toggle_projector()
         
 
     elif (not config.charging and menu['btn4a'].obj.collidepoint(mouse)) or (config.charging and menu['btn4b'].obj.collidepoint(mouse)) :

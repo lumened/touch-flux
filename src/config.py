@@ -3,7 +3,7 @@
 # Development Switches
 
 INDEP = True 
-DEBUG = True
+DEBUG = False
 
 # Constants
 
@@ -20,7 +20,7 @@ screen_ids = {'navigation':1, 'playback':2, 'camera':3, 'power':4}
 manual_switch = False
 
 #To maintain the state of the projector, may be updated externally
-projector = True #On, by default
+projector = False #Off, by default
 
 #Charging is manually controlled
 charging = False
