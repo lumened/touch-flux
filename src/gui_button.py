@@ -26,14 +26,23 @@ class Button:
       else:
          return self.default_color
          
-   def draw_rect(self, screen, mouse, rectcoord, labelcoord, transparent=False):
+   def draw_rect(self, screen, mouse, rectcoord, labelcoord, transparent=0xFF):
       '''create rect obj, draw, and change color based on input'''
       #self.obj  = pygame.draw.rect(screen, self.color(), rectcoord)
-      if transparent:
-          self.default_color = config.colors['transparent'] 
+#      if transparent == None:
+#          self.default_color = config.colors['white'] 
+      if not self.is_hover:
+          temp = list(config.colors['white'])
+          temp.append(transparent)
+          self.default_color = tuple(temp)
       else:
-          self.default_color = config.colors['white'] #Buttons' Color
-          
+          temp = list(config.colors['maroon'])
+          temp.append(transparent)
+          self.hover_color = tuple(temp)
+
+#      print temp
+#      print self.default_color
+#      print config.colors['white']
       self.obj  = self.AAfilledRoundedRect(screen, rectcoord, self.color())
   
 

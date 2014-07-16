@@ -19,10 +19,10 @@ def init():
     menu = {}
 #Defining rectangular buttons
     menu['btn1'] = Button('navigation') #go back to navigation window
-    menu['btn2'] = Button('Play') #play last recorded video
-    menu['btn3'] = Button('Record')#Record
+    menu['btn2'] = Button('left') #navigate left in the videos
+    menu['btn3'] = Button('right')#navigate right in the videos
     menu['btn4'] = Button('Settings')#Settings
-    
+    menu['surface'] = Button(' ')
     return None
 
 def init_camera():
@@ -51,6 +51,7 @@ def deinit_camera():
     global camera
     camera.close()   
 
+
 def preview(screen):
     global sizeMode, camera, yuv, rgb, sizeData
     stream = io.BytesIO() # Capture into in-memory stream
@@ -77,19 +78,19 @@ def record():
         camera.stop_recording()
         config.recording = False
    
-def draw(screen, mouse, transparent = False):
+def draw(screen, mouse, transparent = 0xFF):
     global menu
 
     x = 10
     y = 10
-    
+ 
     height = 80 
     width = 60
-
-    menu['btn1'].draw_rect(screen, mouse, (x,y,height,width), (x,y), transparent)
-    menu['btn2'].draw_rect(screen, mouse, (x,y+160,height,width), (x,y+160), transparent)
-    menu['btn3'].draw_rect(screen, mouse, (x+110,y+160,height,width), (x+220,y+160), transparent)
-    menu['btn4'].draw_rect(screen, mouse, (x+220,y+160,height,width), (x+220,y), transparent)
+    menu['surface'].draw_rect(screen, mouse, (20,20,200,280), (0,0),0)    #surface not becoming transparent
+    menu['btn1'].draw_rect(screen, mouse, (x,y,height,width), (x+10,y+20), transparent)
+    menu['btn2'].draw_rect(screen, mouse, (x,y+160,height,width), (x+30,y+170+10), transparent)
+    menu['btn3'].draw_rect(screen, mouse, (x+220,y+160,height,width), (x+230+20,y+170+10), transparent)
+    menu['btn4'].draw_rect(screen, mouse, (x+220,y,height,width), (x+230+5,y+20), transparent)
           #btn.check_hover(mouse)
     return None
 
@@ -114,5 +115,8 @@ def handle_event(mouse):
 
     elif menu['btn4'].obj.collidepoint(mouse):
         if DEBUG : print('button 4 clicked')
-            
+             
+    elif menu['surface'].obj.collidepoint(mouse):
+        if DEBUG : print('surface clicked')
+        record()
     return None

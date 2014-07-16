@@ -1,6 +1,6 @@
 #Switches
 INDEP = False #To test outside of XBMC
-
+DEBUG = True
 import pygame, os, time, sys, threading
 import gui_screen1, gui_screen2, gui_screen3
 import custom_events,config
@@ -33,7 +33,8 @@ def start_gui():
 #   drivers = [ 'fbcon', 'svgalib', 'directfb' ]
 #   found = False
    pygame.init()
-   print os.getenv('SDL_VIDEODRIVER')
+   if DEBUG:
+       print os.getenv('SDL_VIDEODRIVER')
    if INDEP:
       size = (320,240)
    else:
@@ -64,7 +65,7 @@ def start_gui():
    #Startup Animation
    startup_sequence()
 
-   active_screen = 1 #Startup Menu
+   active_screen = 3 #Startup Menu
 
    camera_on = False
 
@@ -102,10 +103,10 @@ def update_gui():
 #          t.start()
           camera_on = True
       if config.recording: 
-          gui_screen3.draw(screen, mouse, True)
+          gui_screen3.draw(screen, mouse, 50)
 #          print config.recording
       else:
-          gui_screen3.draw(screen, mouse, False)
+          gui_screen3.draw(screen, mouse)
 #          print config.recording
 
    for event in pygame.event.get():
