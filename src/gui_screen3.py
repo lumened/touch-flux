@@ -3,7 +3,7 @@
 #  init()
 #  draw()
 #  handle_event()
-import time
+import time, datetime
 import atexit, io, os, picamera, yuv2rgb, picamera, pygame
 from gui_button import *
 from api_interface import *
@@ -26,7 +26,7 @@ def init():
     return None
 
 def init_camera():
-    global camera, sizeMode, sizeData,yuv, rgb
+    global camera, sizeMode, sizeData,yuv, rgb, path
     s = os.getenv("SUDO_UID")
     uid = int(s) if s else os.getuid()
     s = os.getenv("SUDO_GID")
@@ -46,11 +46,40 @@ def init_camera():
 #    atexit.register(camera.close)
     camera.resolution = sizeData[sizeMode][1]
     config.recording = False
+    path = "/home/pi/recorded_videos"
+    calculate_count()
+
 
 def deinit_camera():
     global camera
     camera.close()   
 
+#to find the count of the file to be written next for the first time when the camera module is initiated
+def calculate_count():      
+    global path, count
+    files = os.listdir(path)
+    if files == []:
+        count = 0
+    else:
+        files = sorted(files)
+        last_file = files[-1]
+#        index = -1
+        i = 0
+        while i < len(last_file):
+            if last_file[i].isdigit():
+                break
+            i = i+1;
+        start_index = i
+        while i < len(last_file):
+            if not last_file[i].isdigit():
+                break
+            i = i+1 
+        end_index = i    
+        count = int(last_file[start_index:end_index])  
+        if count == 999:
+            count = 0
+        else:
+            count = count + 1
 
 def preview(screen):
     global sizeMode, camera, yuv, rgb, sizeData
@@ -68,16 +97,38 @@ def preview(screen):
       ((320 - img.get_width() ) / 2,
        (240 - img.get_height()) / 2))
 
-
+def increment_count():
+    global count
+    if count < 999:
+        count = count + 1
+    else:
+        count = 0
+ 
 def record(): 
-    global camera
+    global camera, count, start_time
     if not config.recording:
-        camera.start_recording('my_video.h264')
+        date = time.strftime("%d-%m-%Y")
+        full_path = path + "/video" + "%03d"%count + "_" + date
+        print full_path     
+        camera.start_recording(full_path, 'h264')
         config.recording = True
+        increment_count()
+        start_time = datetime.datetime.now()
     else:
         camera.stop_recording()
         config.recording = False
    
+def render_time(screen):
+    global start_time
+    myfont = pygame.font.SysFont("monospace", 15)
+    # render text
+    current_time = datetime.datetime.now()
+#    elapsed_time = str((current_time.hour - start_time.hour)%24) + ":" + str((current_time.minute- start_time.minute)%60) + ":" +  str((current_time.second - start_time.second)%60)
+    elapsed_time = str(current_time - start_time)
+    elapsed_time = elapsed_time.rpartition(".")[0]            # to remove the milliseconds
+    label = myfont.render(elapsed_time, 1, config.colors['orange'])
+    screen.blit(label, (130, 20))
+
 def draw(screen, mouse, transparent = 0xFF):
     global menu
 
@@ -91,6 +142,8 @@ def draw(screen, mouse, transparent = 0xFF):
     menu['btn2'].draw_rect(screen, mouse, (x,y+160,height,width), (x+30,y+170+10), transparent)
     menu['btn3'].draw_rect(screen, mouse, (x+220,y+160,height,width), (x+230+20,y+170+10), transparent)
     menu['btn4'].draw_rect(screen, mouse, (x+220,y,height,width), (x+230+5,y+20), transparent)
+    if config.recording:
+         render_time(screen)
           #btn.check_hover(mouse)
     return None
 
