@@ -56,7 +56,9 @@ def deinit_camera():
 
 #to find the count of the file to be written next for the first time when the camera module is initiated
 def calculate_count():      
-    global path, count
+    # max_count = to keep a measure of the total no of files
+    # count = determines the number of the file on which we are currently
+    global path, count, max_count
     files = os.listdir(path)
     if files == []:
         count = 0
@@ -76,10 +78,8 @@ def calculate_count():
             i = i+1 
         end_index = i    
         count = int(last_file[start_index:end_index])  
-        if count == 999:
-            count = 0
-        else:
-            count = count + 1
+        count = (count + 1)%1000
+        max_count = count
 
 def preview(screen):
     global sizeMode, camera, yuv, rgb, sizeData
@@ -99,35 +99,59 @@ def preview(screen):
 
 def increment_count():
     global count
-    if count < 999:
-        count = count + 1
-    else:
-        count = 0
- 
+    count = (count + 1)%1000 
+
+
 def record(): 
-    global camera, count, start_time
+    global camera, count, start_time, max_count
     if not config.recording:
         date = time.strftime("%d-%m-%Y")
         full_path = path + "/video" + "%03d"%count + "_" + date
         print full_path     
         camera.start_recording(full_path, 'h264')
         config.recording = True
+        if count > max_count:
+            max_count = count
         increment_count()
         start_time = datetime.datetime.now()
     else:
         camera.stop_recording()
         config.recording = False
    
-def render_time(screen):
-    global start_time
+
+def navigation(n):
+    global path, count, max_count
+    if config.camera_preview:
+        config.camera_preview = False
+    count = (count + n) % max_count
+    
+
+
+def render_text(screen, text, coord):
     myfont = pygame.font.SysFont("monospace", 15)
+    label = myfont.render(text, 1, config.colors['white'])
+    screen.blit(label, coord)
+ 
+def display_video_info(screen):
+    global count
+    date = time.strftime("%d-%m-%Y")
+    full_path = "video" + "%03d"%count
+    files = os.listdir(path)
+#    print full_path
+    for item in files:
+#         print "for"
+         if item.find(full_path)!= -1:
+#             print item
+             render_text(screen, item, (50,120))
+
+def display_video_time(screen):
+    global start_time
     # render text
     current_time = datetime.datetime.now()
 #    elapsed_time = str((current_time.hour - start_time.hour)%24) + ":" + str((current_time.minute- start_time.minute)%60) + ":" +  str((current_time.second - start_time.second)%60)
     elapsed_time = str(current_time - start_time)
     elapsed_time = elapsed_time.rpartition(".")[0]            # to remove the milliseconds
-    label = myfont.render(elapsed_time, 1, config.colors['orange'])
-    screen.blit(label, (130, 20))
+    render_text(screen, elapsed_time, (130,20))
 
 def draw(screen, mouse, transparent = 0xFF):
     global menu
@@ -137,39 +161,48 @@ def draw(screen, mouse, transparent = 0xFF):
  
     height = 80 
     width = 60
-    menu['surface'].draw_rect(screen, mouse, (20,20,200,280), (0,0),0)    #surface not becoming transparent
+    menu['surface'].draw_rect(screen, mouse, (0,0,240,320), (0,0),0)    #surface not becoming transparent
     menu['btn1'].draw_rect(screen, mouse, (x,y,height,width), (x+10,y+20), transparent)
     menu['btn2'].draw_rect(screen, mouse, (x,y+160,height,width), (x+30,y+170+10), transparent)
     menu['btn3'].draw_rect(screen, mouse, (x+220,y+160,height,width), (x+230+20,y+170+10), transparent)
     menu['btn4'].draw_rect(screen, mouse, (x+220,y,height,width), (x+230+5,y+20), transparent)
     if config.recording:
-         render_time(screen)
+         display_video_time(screen)
           #btn.check_hover(mouse)
+    if not config.camera_preview:
+         display_video_info(screen)
     return None
 
 
 def handle_event(mouse):
     global menu
 
-#    if playback_find_player() is not None :
-#        pygame.event.post(custom_events.SWITCH_TO_PLAYBACK)
-
-    if menu['btn1'].obj.collidepoint(mouse):
+#        return 2
+    if menu['btn1'].obj.collidepoint(mouse) and config.camera_preview:
         if DEBUG : print('button 1 clicked')
         pygame.event.post(custom_events.SWITCH_TO_NAVIGATION)
-#        return 2
-            
+    elif menu['btn1'].obj.collidepoint(mouse) and not config.camera_preview:
+        if DEBUG : print('button 1 clicked')
+        config.camera_preview = True           
     elif menu['btn2'].obj.collidepoint(mouse):
         if DEBUG : print('button 2 clicked')
-                  
-    elif menu['btn3'].obj.collidepoint(mouse):
+        navigation(-1)          
+    elif menu['btn3'].obj.collidepoint(mouse) and config.camera_preview:
         if DEBUG : print('button 3 clicked')
-        record()          
-
+#        record()          
+        navigation(0)
+    elif menu['btn3'].obj.collidepoint(mouse) and not config.camera_preview:
+        if DEBUG : print('button 3 clicked')
+#        record()          
+        navigation(1)
     elif menu['btn4'].obj.collidepoint(mouse):
         if DEBUG : print('button 4 clicked')
              
-    elif menu['surface'].obj.collidepoint(mouse):
-        if DEBUG : print('surface clicked')
+    elif menu['surface'].obj.collidepoint(mouse) and config.camera_preview:
+        if DEBUG : print('surface clicked and recording started')
         record()
+
+    elif menu['surface'].obj.collidepoint(mouse) and not config.camera_preview:
+        if DEBUG : print('surface clicked and video started')
+ #       mplayer
     return None

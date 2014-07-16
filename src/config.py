@@ -16,3 +16,6 @@ manual_switch = True
 
 #to determine whether video is being recorded or not
 recording = False
+
+#to determine whether preview is on or not
+camera_preview = False

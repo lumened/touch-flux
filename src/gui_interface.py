@@ -78,7 +78,7 @@ def update_gui():
    global active_screen
    global camera_on 
 #   global t
-   if not camera_on:
+   if not camera_on or not config.camera_preview:
        screen.fill((0xFF,0x33,0x00)) #Background Color
    else:
        gui_screen3.preview(screen)
@@ -89,12 +89,14 @@ def update_gui():
 #          t.join() 
           gui_screen3.deinit_camera()
           camera_on = False
+          config.camera_preview = False
       gui_screen1.draw(screen, mouse)
    elif active_screen == 2 : #active_screen = 
       if camera_on:
 #          t.join() 
           gui_screen3.deinit_camera()
           camera_on = False
+          config.camera_preview = False
       gui_screen2.draw(screen, mouse)
    elif active_screen ==3:
       if not camera_on:
@@ -102,8 +104,9 @@ def update_gui():
 #          t=threading.Thread(target = gui_screen3.preview)
 #          t.start()
           camera_on = True
+          config.camera_preview=True
       if config.recording: 
-          gui_screen3.draw(screen, mouse, 50)
+          gui_screen3.draw(screen, mouse, 50)      # to make the buttons transparent
 #          print config.recording
       else:
           gui_screen3.draw(screen, mouse)
