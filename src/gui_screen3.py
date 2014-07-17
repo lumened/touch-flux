@@ -48,7 +48,7 @@ def init_camera():
     config.recording = False
     path = "/home/pi/recorded_videos"
     calculate_count()
-
+    print camera.resolution
 
 def deinit_camera():
     global camera
@@ -105,6 +105,7 @@ def increment_count():
 def record(): 
     global camera, count, start_time, max_count
     if not config.recording:
+        print camera.resolution
         date = time.strftime("%d-%m-%Y")
         full_path = path + "/video" + "%03d"%count + "_" + date
         print full_path     
@@ -197,7 +198,8 @@ def handle_event(mouse):
         navigation(1)
     elif menu['btn4'].obj.collidepoint(mouse):
         if DEBUG : print('button 4 clicked')
-             
+        pygame.event.post(custom_events.SWITCH_TO_CAMERA_SETTINGS)        
+        config.camera_preview = False
     elif menu['surface'].obj.collidepoint(mouse) and config.camera_preview:
         if DEBUG : print('surface clicked and recording started')
         record()

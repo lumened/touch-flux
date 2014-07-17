@@ -2,7 +2,7 @@
 INDEP = False #To test outside of XBMC
 DEBUG = True
 import pygame, os, time, sys, threading
-import gui_screen1, gui_screen2, gui_screen3
+import gui_screen1, gui_screen2, gui_screen3, gui_screen5
 import custom_events,config
 
 def start_gui():
@@ -57,7 +57,7 @@ def start_gui():
    gui_screen1.init()
    gui_screen2.init()
    gui_screen3.init()
-
+   gui_screen5.init()
    #setting display mode and resolution
    #screen = pygame.display.set_mode((320,240))
    clock = pygame.time.Clock()
@@ -78,10 +78,10 @@ def update_gui():
    global active_screen
    global camera_on 
 #   global t
-   if not camera_on or not config.camera_preview:
-       screen.fill((0xFF,0x33,0x00)) #Background Color
-   else:
+   if camera_on and config.camera_preview:
        gui_screen3.preview(screen)
+   else:
+       screen.fill((0xFF,0x33,0x00)) #Background Color
    mouse = pygame.mouse.get_pos()
 
    if active_screen == 1 :   #active_screen =
@@ -98,20 +98,25 @@ def update_gui():
           camera_on = False
           config.camera_preview = False
       gui_screen2.draw(screen, mouse)
-   elif active_screen ==3:
+   elif active_screen == 3:
       if not camera_on:
           gui_screen3.init_camera()  
 #          t=threading.Thread(target = gui_screen3.preview)
 #          t.start()
           camera_on = True
-          config.camera_preview=True
+          config.camera_preview = True
+#      elif not camera_preview:
+#          camera_preview = on
       if config.recording: 
           gui_screen3.draw(screen, mouse, 50)      # to make the buttons transparent
 #          print config.recording
       else:
           gui_screen3.draw(screen, mouse)
 #          print config.recording
-
+   elif active_screen == 5:
+      if config.camera_preview:
+          config.camera_preview = False
+      gui_screen5.draw(screen, mouse) 
    for event in pygame.event.get():
       if event.type == pygame.QUIT:
          pygame.quit()
@@ -124,6 +129,9 @@ def update_gui():
             gui_screen2.handle_event(mouse)
          elif active_screen == config.screen_ids['camera'] :
             gui_screen3.handle_event(mouse)
+         elif active_screen == config.screen_ids['camera_settings'] :
+            gui_screen5.handle_event(mouse)
+        
       if event == custom_events.SWITCH_TO_PLAYBACK :
          print "Custom Event"
          active_screen = config.screen_ids['playback']
@@ -133,6 +141,9 @@ def update_gui():
       if event == custom_events.SWITCH_TO_CAMERA :
          print "Custom Event"
          active_screen = config.screen_ids['camera']
+      if event == custom_events.SWITCH_TO_CAMERA_SETTINGS :
+         print "Custom Event"
+         active_screen = config.screen_ids['camera_settings']
               
 
    pygame.display.update()
