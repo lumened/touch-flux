@@ -52,7 +52,9 @@ def draw(screen, mouse):
     #    speed = playback_speed()
         f = open("./src/battmonitor/data.txt", "r")
         percentage = int(f.read(3))
-        plugged_in = True if f.read(1)=='P' else False
+        plugged = f.read(1)
+        if plugged == 'P': plugged_in = True
+        elif plugged == 'U': plugged_in = False
         f.close()
         
         pygame.draw.rect(screen, config.colors['white'],(140,35,100,20))
@@ -86,6 +88,8 @@ def draw(screen, mouse):
     #screen.blit(title, (10,15))
     #screen.blit(time, (10,40))
 
+
+
     ##Projector On/Off
     if config.projector : menu['btn3a'].draw_rect(screen, mouse, (x+110, y,button_height, button_width), (x+110, y))
     else: menu['btn3b'].draw_rect(screen, mouse, (x+110, y,button_height, button_width), (x+110, y))
@@ -105,12 +109,14 @@ def handle_event(mouse):
 
     if menu['btn1'].obj.collidepoint(mouse):
         if config.DEBUG : print('Activate Shutdown')
+        shutdown()
+        sleep(10) #Still on
+        from os import call
+        call(["sudo","shutdown", "-h", "now"])
         
-    
     #elif menu['btn2'].obj.collidepoint(mouse):
     #    if config.DEBUG : print('Reboot')
 
-                  
     elif (config.projector and menu['btn3a'].obj.collidepoint(mouse)) or (not config.projector and menu['btn3b'].obj.collidepoint(mouse)) :
         if config.DEBUG : print('Projector Power Toggle')
         #Toggle Projector State
@@ -122,7 +128,6 @@ def handle_event(mouse):
         if config.DEBUG : print('Charging Toggle')
         #Toggle Projector State
         config.charging = False if config.charging else True
-
             
 #    elif menu['btn5'].obj.collidepoint(mouse):
 #        if config.DEBUG : print('button 5 clicked')

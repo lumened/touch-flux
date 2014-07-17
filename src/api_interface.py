@@ -6,12 +6,8 @@ DEBUG = False
 
 from api_wrapper import *
 
-'''
-    Navigation Functions
-    - Up, Down, Left and Right for basic navigation
-    - Select to enter an element
-    - Back to return to previous level
-'''
+
+# Navigation Functions
 
 def nav_up():
     method = 'Input.Up'
@@ -37,11 +33,7 @@ def nav_back():
     method = 'Input.Back'
     getJsonRemote(method)
 
-'''
-    Playback Functions
-    - Play/Pause
-    - Volume Control
-'''
+# Playback Control
 
 def playback_vol_inc():
     method = 'Application.GetProperties'
@@ -182,7 +174,17 @@ def playback_properties():
     return result
 
 
+# XBMC GUI 
+
 def push_notification(title, text):
     method = 'GUI.ShowNotification'
     parameters = {'title':title,'message':text}
+    getJsonRemote(method, parameters)
+
+
+# System Control
+
+def shutdown():
+    method = 'System.Shutdown'
+    parameters = {}
     getJsonRemote(method, parameters)
