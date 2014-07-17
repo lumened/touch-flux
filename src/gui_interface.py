@@ -65,12 +65,14 @@ def start_gui():
 
    gui_screen4.init()
 
+   startup_sequence()
+
    #setting display mode and resolution
    #screen = pygame.display.set_mode((320,240))
    clock = pygame.time.Clock()
 
    #Startup Animation
-   startup_sequence()
+#   startup_sequence()
 
    active_screen = 1 #Startup Menu
 
@@ -124,5 +126,44 @@ def update_gui():
 
    return None
 
+
 def startup_sequence():
-   pass
+   
+   global screen
+   logo = pygame.image.load("./icons/lumened.png")
+   colorkey = [0, 0, 0]
+   logo.set_colorkey(colorkey)
+   logo.set_alpha(None)
+   logo = logo.convert()
+
+   for i in range(1,40):
+      screen.fill((0xFF,0x33,0x00)) #Background Color
+      logo.set_alpha(255*i/40)
+      screen.blit(logo, (1,1))
+      pygame.display.update()
+      time.sleep(0.1)
+
+#   logo.set_alpha(None)
+#   logo = logo.convert()
+
+   for j in range(10,1,-1):
+      screen.fill((0xFF,0x33,0x00)) #Background Color
+      logo.set_alpha(255*j/10)
+      screen.blit(logo, (1,1))
+      pygame.display.update()
+      time.sleep(0.1)
+      
+#   for i in range(20,1):
+#      screen.fill((0xFF,0x33,0x00)) #Background Color
+#      logo.set_alpha(255*i/20)
+#      screen.blit(logo, (1,1))
+#      pygame.display.update()
+#      time.sleep(0.2)
+
+   screen.fill((0xFF,0x33,0x00)) #Background Color
+#   time.sleep(5)
+   return None
+
+
+
+
