@@ -36,31 +36,33 @@ def nav_back():
 # Playback Control
 
 def playback_vol_inc():
-    method = 'Application.GetProperties'
-    parameters = {"properties": ["volume"]}
-    try:
-        volume = getJsonRemote(method, parameters)['volume']
-        if DEBUG : print(volume)
-        volume = int(volume) + 5
-        method = 'Application.SetVolume'
-        parameters = {"volume": volume}
-        getJsonRemote(method, parameters)
-    except:
-        return None
+    #method = 'Application.GetProperties'
+    #parameters = {"properties": ["volume"]}
+    #try:
+    #    volume = getJsonRemote(method, parameters)['volume']
+    #    if DEBUG : print(volume)
+    #    volume = int(volume) + 5
+    method = 'Application.SetVolume'
+    #parameters = {"volume": volume}
+    parameters = {"volume": "increment"}
+    getJsonRemote(method, parameters)
+    #except:
+    return None
 
 
 def playback_vol_dec():
-    method = 'Application.GetProperties'
-    parameters = {"properties": ["volume"]}
-    try:
-        volume = getJsonRemote(method, parameters)['volume']
-        if DEBUG : print(volume)
-        volume = int(volume) - 5
-        method = 'Application.SetVolume'
-        parameters = {"volume": volume}
-        getJsonRemote(method, parameters)
-    except:
-        return None
+    #method = 'Application.GetProperties'
+    #parameters = {"properties": ["volume"]}
+    #try:
+    #    volume = getJsonRemote(method, parameters)['volume']
+    #    if DEBUG : print(volume)
+    #    volume = int(volume) - 5
+    method = 'Application.SetVolume'
+    #parameters = {"volume": volume}
+    parameters = {"volume": "decrement"}
+    getJsonRemote(method, parameters)
+#    except:
+    return None
 
 
 def playback_find_player():
