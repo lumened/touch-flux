@@ -3,7 +3,7 @@
 #  init()
 #  draw()
 #  handle_event()
-import time
+import time, pygame
 
 from gui_button import *
 from api_interface import *
@@ -36,13 +36,14 @@ def draw(screen, mouse):
         pygame.event.post(custom_events.SWITCH_TO_PLAYBACK)
         return None
 
+    if not config.update_screen: return None
 
     x = 10
     y = 10
     
     height = 80 
     width = 60
-
+        
     menu['btn1'].draw_rect(screen, mouse, (x,y,height,width), (x,y))
     menu['btn2'].draw_rect(screen, mouse, (x,y+160,height,width), (x,y+160))
     menu['btn3'].draw_rect(screen, mouse, (x+220,y+160,height,width), (x+220,y+160))
@@ -54,6 +55,9 @@ def draw(screen, mouse):
     menu['btn8'].draw_triangle(screen, mouse, [[160,240],[120,170],[200,170]],(125,33))  #down
     menu['btn9'].draw_triangle(screen, mouse, [[280,120],[210,80],[210,160]],(125,33))      #right 
           #btn.check_hover(mouse)
+
+    pygame.display.update()
+    config.update_screen = False #Dont redraw till switch
     return None
 
 

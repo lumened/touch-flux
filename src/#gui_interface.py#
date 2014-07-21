@@ -110,25 +110,20 @@ def update_gui():
 
       if event == custom_events.SWITCH_TO_PLAYBACK :
          if config.DEBUG : print("Custom Event")
-         config.update_screen = True
          active_screen = config.screen_ids['playback']
 
       if event == custom_events.SWITCH_TO_NAVIGATION :
          if config.DEBUG : print "Custom Event"
-         config.update_screen = True
          active_screen = config.screen_ids['navigation']
 
       if event == custom_events.SWITCH_TO_POWER :
          if config.DEBUG : print "Custom Event"
-         config.update_screen = True
          active_screen = config.screen_ids['power']
               
 
-#   import cProfile
-#   cProfile.run('pygame.display.update()')
 #   pygame.display.update()
-   clock.tick(4) #Controls FPS
-#   pygame.time.wait(50)
+   clock.tick(5) #Controls FPS
+   pygame.time.wait(50)
 
    return None
 

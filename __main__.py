@@ -21,10 +21,13 @@ if src.config.projector: push_notification('Touch for Flux Active', 'Touchscreen
 src.api_projector.init_projector()
 src.gui_interface.start_gui()
 
+#def main():
+
 while True: src.gui_interface.update_gui()
 
 #pygame.event.Event(QUIT)
 
 #    playback_unit_test()
 
-    
+#import cProfile as Profile
+#Profile.run('main()')

@@ -24,3 +24,10 @@ projector = False #Off, by default
 
 #Charging is manually controlled
 charging = False
+
+#Maintainst state of power supply
+plugged_in = False
+
+#Signals to the application that the screen needs to be redrawn
+update_screen = True
+

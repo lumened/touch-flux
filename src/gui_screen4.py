@@ -10,7 +10,7 @@ import config, custom_events, api_projector
 import pygame
 
 def init():
-    global menu
+    global menu, font, font2
 
     menu = {}
 #Defining rectangular buttons
@@ -24,27 +24,32 @@ def init():
     menu['btn4b'] = Button('Charging Stop','./icons/charging-stop.png')
     #menu['btn6'] = Button('Forward', './icons/forward.png')#'Button 6(Up)')
     menu['btn7'] = Button('Nav', './icons/left.png')
+
+    font = pygame.font.Font(None, 22)
+    font2 = pygame.font.Font(None, 18)
+
     
     return None
 
 
 def draw(screen, mouse):
-    global menu
+    global menu, font, font2
    
     x = 10
     y = 105
     button_height, button_width = (80,60) 
 
-    menu['btn1'].draw_rect(screen, mouse, (x,y,button_height, button_width), (x,y))
+    if config.update_screen:
+        menu['btn1'].draw_rect(screen, mouse, (x,y,button_height, button_width), (x,y))
 #    menu['btn2'].draw_rect(screen, mouse, (x,y+70,button_height, button_width), (x,y+70))
    
 #    menu['btn5'].draw_rect(screen, mouse, (x+220,y,button_height, button_width), (x+220,y))
 #    menu['btn6'].draw_rect(screen, mouse, (x+220,y+70,button_height, button_width), (x+220,y+70))
 
-    menu['btn7'].draw_rect(screen, mouse, (x,5,button_height, button_width), (x,5))
+        menu['btn7'].draw_rect(screen, mouse, (x,5,button_height, button_width), (x,5))
     
-    font = pygame.font.Font(None, 22)
-    screen.blit(font.render("Power Menu", 1, config.colors['white']), (140,15))
+#    font = pygame.font.Font(None, 22)
+        screen.blit(font.render("Power Menu", 1, config.colors['white']), (140,15))
 
     #Live Update Area
 
@@ -53,16 +58,16 @@ def draw(screen, mouse):
         f = open("./src/battmonitor/data.txt", "r")
         percentage = int(f.read(3))
         plugged = f.read(1)
-        if plugged == 'P': plugged_in = True
-        elif plugged == 'U': plugged_in = False
+        if plugged == 'P': config.plugged_in = True
+        elif plugged == 'U': config.plugged_in = False
         f.close()
         
         pygame.draw.rect(screen, config.colors['white'],(140,35,100,20))
         pygame.draw.rect(screen, config.colors['maroon'] , (142,36,percentage*96/100,18))
         pygame.draw.rect(screen, config.colors['white'],(240,40,6,10))
-        font2 = pygame.font.Font(None, 18)
+        #        font2 = pygame.font.Font(None, 18)
         screen.blit(font.render(str(percentage) + "%", 1, config.colors['white']), (280,35))
-        if plugged_in: 
+        if config.plugged_in: 
             screen.blit(pygame.image.load("./icons/plug-in.png"), (250, 35))
 
     #    time, total_time = playback_time()
@@ -98,7 +103,13 @@ def draw(screen, mouse):
     if not config.charging : menu['btn4a'].draw_rect(screen, mouse, (x+220,y,button_height, button_width), (x+220,y))
     else : menu['btn4b'].draw_rect(screen, mouse, (x+220,y,button_height, button_width), (x+220,y))
 
-
+    
+    if config.update_screen:
+        pygame.display.update()
+        config.update_screen = False
+    else:
+        pygame.display.update(140,35,180,25)
+                
     return None
 
 
