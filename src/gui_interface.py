@@ -23,7 +23,7 @@ def start_gui():
    print(INDEP)
    if not INDEP :
       print("Initializing variables")
-      os.environ["TSLIB_TSDEVICE"] = "/dev/input/event0"
+      os.environ["TSLIB_TSDEVICE"] = "/dev/input/touchscreen"
       os.environ["TSLIB_TSEVENTTYPE"] = "INPUT"
       os.environ["TSLIB_CONFFILE"] = "/etc/ts.conf"
       os.environ["TSLIB_CALIBFILE"] = "/etc/pointercal"
@@ -33,7 +33,10 @@ def start_gui():
       os.environ["SDL_VIDEODRIVER"] = "fbcon"
       os.environ["SDL_AUDIODRIVER"] = "alsa"
       
+   pygame.mixer.quit()
    pygame.init()
+   pygame.mixer.quit()
+   
    print __name__
       
    disp_no = os.getenv("DISPLAY")
@@ -73,6 +76,7 @@ def start_gui():
 
    #Startup Animation
 #   startup_sequence()
+#   pygame.mixer.quit()
    pygame.event.set_blocked(pygame.MOUSEMOTION)
    active_screen = 1 #Startup Menu
 
