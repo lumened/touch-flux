@@ -21,12 +21,12 @@ def init():
     menu['btn1'] = Button('camera') #go back to navigation window
     menu['btn2'] = Button('1920,1080') #navigate left in the videos
     menu['btn3'] = Button('1280,720 ')#navigate right in the videos
-    menu['btn4'] = Button('Settings')#Settings
+    menu['btn4'] = Button('640,480')#Settings
     return None
 
 def set_resolution(res):
     global camera
-    config.camera_resolution = res 
+    config.mode = res 
 
 def draw(screen, mouse, transparent = 0xFF):
     global menu
@@ -52,12 +52,14 @@ def handle_event(mouse):
         config.camera_preview = True        
     elif menu['btn2'].obj.collidepoint(mouse):
         if DEBUG : print('button 2 clicked')
-        set_resolution((1280,720))          
+        set_resolution(0)          
     elif menu['btn3'].obj.collidepoint(mouse):
         if DEBUG : print('button 3 clicked')
+        set_resolution(1)          
 #        record()          
         set_resolution((1920,1080))          
     elif menu['btn4'].obj.collidepoint(mouse):
         if DEBUG : print('button 4 clicked')
+        set_resolution(2)          
              
     return None

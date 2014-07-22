@@ -21,4 +21,5 @@ recording = False
 camera_preview = False
 
 #determine the resolution of the camera
-camera_resolution = (1280,720)
+mode = 1
+#sizeMode = 1

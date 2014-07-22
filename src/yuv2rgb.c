@@ -22,6 +22,7 @@ static PyObject *convert(PyObject *self, PyObject *args) {
 
 	if(w & 31) w += 32 - (w & 31); // Round up width to multiple of 32
 	if(h & 15) h += 16 - (h & 15); // Round up height to multiple of 16
+        printf("\n%d\t%d",w,h);
 
 	rgbPtr = outBuf.buf;
 	yPtr   = inBuf.buf;

@@ -32,16 +32,15 @@ def init_camera():
     s = os.getenv("SUDO_GID")
     gid = int(s) if s else os.getgid()
 #variables used:
-    sizeMode = 0     #default to large 
     sizeData = [ # Camera parameters for different size settings
      # Full res      Viewfinder  Crop window
-    [(2592, 1944), (320, 240), (0.0   , 0.0   , 1.0   , 1.0   )], # Large
-    [(1920, 1080), (320, 180), (0.1296, 0.2222, 0.7408, 0.5556)], # Med
-    [(1440, 1080), (320, 240), (0.2222, 0.2222, 0.5556, 0.5556)]] # Small
+    [(1920, 1080), (320, 240), (0.0   , 0.0   , 1.0   , 1.0   )], # Large
+    [(1280, 720), (320, 240), (0.1296, 0.2222, 0.7408, 0.5556)], # Med
+    [(640, 480), (320, 240), (0.2222, 0.2222, 0.5556, 0.5556)]] # Small
     # Buffers for viewfinder data
     rgb = bytearray(320 * 240 * 3)
     yuv = bytearray(320 * 240 * 3 / 2)
-
+    sizeMode = 1
     camera            = picamera.PiCamera()
 #    atexit.register(camera.close)
     camera.resolution = sizeData[sizeMode][1]
@@ -83,6 +82,12 @@ def calculate_count():
 
 def preview(screen):
     global sizeMode, camera, yuv, rgb, sizeData
+    if config.recording:
+        img = pygame.image.load('/home/pi/touch-flux/icons/gear.png')    
+        screen.blit(img,
+           ((320 - img.get_width() ) / 2,
+           (240 - img.get_height()) / 2))
+        return None
     stream = io.BytesIO() # Capture into in-memory stream
     camera.capture(stream, use_video_port=True, format='raw')
     stream.seek(0)
@@ -93,6 +98,7 @@ def preview(screen):
     img = pygame.image.frombuffer(rgb[0:
       (sizeData[sizeMode][1][0] * sizeData[sizeMode][1][1] * 3)],
       sizeData[sizeMode][1], 'RGB')
+#    img = pygame.transform.scale(img, (320,240))
     screen.blit(img,
       ((320 - img.get_width() ) / 2,
        (240 - img.get_height()) / 2))
@@ -103,9 +109,12 @@ def increment_count():
 
 
 def record(): 
-    global camera, count, start_time, max_count
+    global camera, count, start_time, max_count, sizeData
     if not config.recording:
+#        camera.resolution = size_Data[sizeMode][0]
+        camera.resolution = sizeData[config.mode][0]
         print camera.resolution
+#        config.camera_preview = False   # to turn off the preview
         date = time.strftime("%d-%m-%Y")
         full_path = path + "/video" + "%03d"%count + "_" + date
         print full_path     
@@ -118,7 +127,8 @@ def record():
     else:
         camera.stop_recording()
         config.recording = False
-   
+        camera.resolution = sizeData[config.mode][1]
+ #       config.camera_preview = True   #to turn on the preview
 
 def navigation(n):
     global path, count, max_count
@@ -201,7 +211,7 @@ def handle_event(mouse):
         pygame.event.post(custom_events.SWITCH_TO_CAMERA_SETTINGS)        
         config.camera_preview = False
     elif menu['surface'].obj.collidepoint(mouse) and config.camera_preview:
-        if DEBUG : print('surface clicked and recording started')
+        if DEBUG : print('surface clicked recording')
         record()
 
     elif menu['surface'].obj.collidepoint(mouse) and not config.camera_preview:
