@@ -23,7 +23,7 @@ def init():
     menu['btn4'] = Button('Rewind', './icons/rewind.png')
     menu['btn5'] = Button('Stop','./icons/stop.png')#Stop
     menu['btn6'] = Button('Forward', './icons/forward.png')
-    menu['btn7'] = Button('Back', './icons/right.png')
+    menu['btn7'] = Button('Back', './icons/back.png')
 
     font = pygame.font.Font(None, 22)
     
