@@ -21,5 +21,13 @@ recording = False
 camera_preview = False
 
 #determine the resolution of the camera
-mode = 1
+mode = 0
 #sizeMode = 1
+
+# max_count = to keep a measure of the total no of files
+max_count = 0
+# count = determines the number of the file on which we are current$
+count = 0
+
+#path of the recorded videos
+path = "/home/pi/recorded_videos"

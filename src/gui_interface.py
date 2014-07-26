@@ -1,8 +1,8 @@
-#Switches
+#Switchesw
 INDEP = False #To test outside of XBMC
 DEBUG = True
 import pygame, os, time, sys, threading
-import gui_screen1, gui_screen2, gui_screen3, gui_screen5
+import gui_screen1, gui_screen2, gui_screen3, gui_screen5, api_camera
 import custom_events,config
 
 def start_gui():
@@ -79,7 +79,7 @@ def update_gui():
    global camera_on 
 #   global t
    if camera_on and config.camera_preview:
-       gui_screen3.preview(screen)
+       api_camera.preview(screen)
    else:
        screen.fill((0xFF,0x33,0x00)) #Background Color
    mouse = pygame.mouse.get_pos()
@@ -87,20 +87,20 @@ def update_gui():
    if active_screen == 1 :   #active_screen =
       if camera_on:
 #          t.join() 
-          gui_screen3.deinit_camera()
+          api_camera.deinit_camera()
           camera_on = False
           config.camera_preview = False
       gui_screen1.draw(screen, mouse)
    elif active_screen == 2 : #active_screen = 
       if camera_on:
 #          t.join() 
-          gui_screen3.deinit_camera()
+          api_camera.deinit_camera()
           camera_on = False
           config.camera_preview = False
       gui_screen2.draw(screen, mouse)
    elif active_screen == 3:
       if not camera_on:
-          gui_screen3.init_camera()  
+          api_camera.init_camera()  
 #          t=threading.Thread(target = gui_screen3.preview)
 #          t.start()
           camera_on = True

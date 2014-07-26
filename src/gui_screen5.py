@@ -18,10 +18,10 @@ def init():
 
     menu = {}
 #Defining rectangular buttons
-    menu['btn1'] = Button('camera') #go back to navigation window
-    menu['btn2'] = Button('1920,1080') #navigate left in the videos
-    menu['btn3'] = Button('1280,720 ')#navigate right in the videos
-    menu['btn4'] = Button('640,480')#Settings
+    menu['btn1'] = Button('camera' , './icons/camera.png') #go back to navigation window
+    menu['btn2'] = Button('1280,720' , './icons/720p-icon.png') #navigate left in the videos
+    menu['btn3'] = Button('640,480 ' , './icons/480p-icon.png')#navigate right in the videos
+    menu['btn4'] = Button('480,360' , './icons/360p-icon.png')#Settings
     return None
 
 def set_resolution(res):
@@ -36,10 +36,10 @@ def draw(screen, mouse, transparent = 0xFF):
  
     height = 80 
     width = 60
-    menu['btn1'].draw_rect(screen, mouse, (x,y,height,width), (x+10,y+20), transparent)
-    menu['btn2'].draw_rect(screen, mouse, (x,y+160,height,width), (x+10,y+160+10), transparent)
-    menu['btn3'].draw_rect(screen, mouse, (x+110,y+160,height,width), (x+110+20,y+160+10), transparent)
-    menu['btn4'].draw_rect(screen, mouse, (x+220,y+160,height,width), (x+220+10,y+160+10), transparent)
+    menu['btn1'].draw_rect(screen, mouse, (x,y,height,width), (x,y), transparent)
+    menu['btn2'].draw_rect(screen, mouse, (x,y+160,height,width), (x,y+160), transparent)
+    menu['btn3'].draw_rect(screen, mouse, (x+110,y+160,height,width), (x+110,y+160), transparent)
+    menu['btn4'].draw_rect(screen, mouse, (x+220,y+160,height,width), (x+220,y+160), transparent)
 
 
 def handle_event(mouse):
