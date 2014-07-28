@@ -10,7 +10,7 @@ import config, custom_events, api_projector
 import pygame
 
 def init():
-    global menu, font, font2
+    global menu, font, font2, plug_icon, charging_icon
 
     menu = {}
 #Defining rectangular buttons
@@ -27,13 +27,14 @@ def init():
 
     font = pygame.font.Font(None, 22)
     font2 = pygame.font.Font(None, 18)
-
     
+    plug_icon = pygame.image.load("./icons/plug-in.png")
+    charging_icon = pygame.image.load("./icons/charging.png")
     return None
 
 
 def draw(screen, mouse):
-    global menu, font, font2
+    global menu, font, font2, plug_icon, charging_icon
    
     x = 10
     y = 105
@@ -58,17 +59,30 @@ def draw(screen, mouse):
         f = open("./src/battmonitor/data.txt", "r")
         percentage = int(f.read(3))
         plugged = f.read(1)
-        if plugged == 'P': config.plugged_in = True
-        elif plugged == 'U': config.plugged_in = False
+        if plugged == 'P': 
+            config.plugged_in = True
+            config.charging = False
+        elif plugged == 'C':
+            config.charging = True
+            config.plugged_in = True
+        elif plugged == 'U': 
+            config.plugged_in = False
+            config.charging = False            
+        
         f.close()
         
         pygame.draw.rect(screen, config.colors['white'],(140,35,100,20))
         pygame.draw.rect(screen, config.colors['maroon'] , (142,36,percentage*96/100,18))
         pygame.draw.rect(screen, config.colors['white'],(240,40,6,10))
         #        font2 = pygame.font.Font(None, 18)
-        screen.blit(font.render(str(percentage) + "%", 1, config.colors['white']), (280,35))
+        if config.charging:
+            #screen.blit(font.render('100' + "%", 1, config.colors['white']), (280,35))
+            pygame.draw.rect(screen, config.colors['maroon'] , (142,36,100*96/100,18))
+            screen.blit(charging_icon, (175,35))
+        else:
+            screen.blit(font.render(str(percentage) + "%", 1, config.colors['white']), (280,35))
         if config.plugged_in: 
-            screen.blit(pygame.image.load("./icons/plug-in.png"), (250, 35))
+            screen.blit(plug_icon, (250, 35))
 
     #    time, total_time = playback_time()
     except: #Else, switch to screen 1

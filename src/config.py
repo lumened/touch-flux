@@ -22,7 +22,7 @@ manual_switch = False
 #To maintain the state of the projector, may be updated externally
 projector = False #Off, by default
 
-#Charging is manually controlled
+#Charging is automated
 charging = False
 
 #Maintainst state of power supply
