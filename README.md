@@ -34,3 +34,4 @@ Elements starting from top left are:
 
 Power Menu also present that has the ability to shutdown the system. Also, integrated with [BattMonitor](https://github.com/lumened/battmonitor), to show battery readings and state of the system.
 
+You can see a demo video at http://blog.lumened.org/post/92737335621/.
