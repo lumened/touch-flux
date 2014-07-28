@@ -39,6 +39,7 @@ def draw(screen, mouse):
     x = 10
     y = 105
     button_height, button_width = (80,60) 
+    local_update = True
 
     if config.update_screen:
         menu['btn1'].draw_rect(screen, mouse, (x,y,button_height, button_width), (x,y))
@@ -59,6 +60,7 @@ def draw(screen, mouse):
         f = open("./src/battmonitor/data.txt", "r")
         percentage = int(f.read(3))
         plugged = f.read(1)
+        
         if plugged == 'P': 
             config.plugged_in = True
             config.charging = False
@@ -86,6 +88,7 @@ def draw(screen, mouse):
 
     #    time, total_time = playback_time()
     except: #Else, switch to screen 1
+        local_update = False
         if config.DEBUG: print("Data not available")
     #    config.manual_switch = False
     #    pygame.event.post(custom_events.SWITCH_TO_NAVIGATION)
@@ -121,7 +124,7 @@ def draw(screen, mouse):
     if config.update_screen:
         pygame.display.update()
         config.update_screen = False
-    else:
+    elif local_update:
         pygame.display.update(140,35,180,25)
                 
     return None
