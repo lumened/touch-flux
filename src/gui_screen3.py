@@ -3,7 +3,7 @@
 #  init()
 #  draw()
 #  handle_event()
-import time, datetime
+import datetime
 import atexit, io, os, yuv2rgb, picamera, pygame
 from gui_button import *
 from api_interface import *
@@ -33,7 +33,7 @@ def render_text(screen, text, coord):
  
 def display_video_info(screen):
 #    global count
-    date = time.strftime("%d-%m-%Y")
+#    date = time.strftime("%d-%m-%Y")
     full_path = "video" + "%03d"%config.count
     files = os.listdir(config.path)
 #    print full_path
@@ -44,11 +44,10 @@ def display_video_info(screen):
              render_text(screen, item, (50,120))
 
 def display_video_time(screen):
-    global start_time
     # render text
     current_time = datetime.datetime.now()
 #    elapsed_time = str((current_time.hour - start_time.hour)%24) + ":" + str((current_time.minute- start_time.minute)%60) + ":" +  str((current_time.second - start_time.second)%60)
-    elapsed_time = str(current_time - start_time)
+    elapsed_time = str(current_time - config.start_time)
     elapsed_time = elapsed_time.rpartition(".")[0]            # to remove the milliseconds
     render_text(screen, elapsed_time, (130,20))
 
