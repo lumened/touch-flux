@@ -2,7 +2,7 @@
 INDEP = False #To test outside of XBMC
 DEBUG = True
 import pygame, os, time, sys, threading
-import gui_screen1, gui_screen2, gui_screen3, gui_screen5, api_camera
+import gui_screen1, gui_screen2, gui_screen3, gui_screen5, api_camera, api_audio
 import custom_events,config
 
 def start_gui():
@@ -13,7 +13,7 @@ def start_gui():
    global camera_on   # for camera initialization deinitialization
 
    if not INDEP :
-      os.environ["TSLIB_TSDEVICE"] = "/dev/input/event0"
+      os.environ["TSLIB_TSDEVICE"] = "/dev/input/touchscreen"
       os.environ["TSLIB_TSEVENTTYPE"] = "INPUT"
       os.environ["TSLIB_CONFFILE"] = "/etc/ts.conf"
       os.environ["TSLIB_CALIBFILE"] = "/etc/pointercal"
@@ -33,6 +33,7 @@ def start_gui():
 #   drivers = [ 'fbcon', 'svgalib', 'directfb' ]
 #   found = False
    pygame.init()
+   pygame.mixer.quit()
    if DEBUG:
        print os.getenv('SDL_VIDEODRIVER')
    if INDEP:
@@ -77,17 +78,16 @@ def update_gui():
    global clock
    global active_screen
    global camera_on 
-#   global t
    if camera_on and config.camera_preview:
        api_camera.preview(screen)
    else:
        screen.fill((0xFF,0x33,0x00)) #Background Color
    mouse = pygame.mouse.get_pos()
-
    if active_screen == 1 :   #active_screen =
       if camera_on:
 #          t.join() 
           api_camera.deinit_camera()
+          #api_audio.deinit_audio()
           camera_on = False
           config.camera_preview = False
       gui_screen1.draw(screen, mouse)
@@ -95,14 +95,14 @@ def update_gui():
       if camera_on:
 #          t.join() 
           api_camera.deinit_camera()
+          #api_audio.deinit_audio()
           camera_on = False
           config.camera_preview = False
       gui_screen2.draw(screen, mouse)
    elif active_screen == 3:
       if not camera_on:
+          #api_audio.init_audio()
           api_camera.init_camera()  
-#          t=threading.Thread(target = gui_screen3.preview)
-#          t.start()
           camera_on = True
           config.camera_preview = True
 #      elif not camera_preview:

@@ -1,5 +1,4 @@
-# This file defines the navigation screen.
-# This requires the following procedures:
+# This file defines the navigation screen. This requires the following procedures:
 #  init()
 #  draw()
 #  handle_event()
@@ -7,7 +6,7 @@ import datetime
 import atexit, io, os, yuv2rgb, picamera, pygame
 from gui_button import *
 from api_interface import *
-import custom_events, api_camera
+import custom_events, api_camera, api_audio
 
 DEBUG = True
 
@@ -64,8 +63,8 @@ def draw(screen, mouse, transparent = 0xFF):
     menu['btn2'].draw_rect(screen, mouse, (x,y+160,height,width), (x,y+160), transparent)
     menu['btn3'].draw_rect(screen, mouse, (x+220,y+160,height,width), (x+220,y+160), transparent)
     menu['btn4'].draw_rect(screen, mouse, (x+220,y,height,width), (x+220,y), transparent)
-    if config.recording:
-         display_video_time(screen)
+#    if config.recording:
+#         display_video_time(screen)
           #btn.check_hover(mouse)
     if not config.camera_preview:
          display_video_info(screen)
@@ -100,7 +99,7 @@ def handle_event(mouse):
     elif menu['surface'].obj.collidepoint(mouse) and config.camera_preview:
         if DEBUG : print('surface clicked recording')
         api_camera.record()
-
+        #api_audio.record()
     elif menu['surface'].obj.collidepoint(mouse) and not config.camera_preview:
         if DEBUG : print('surface clicked and video started')
  #       mplayer

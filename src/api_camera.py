@@ -104,23 +104,30 @@ def record():
         camera.resolution = sizeData[config.mode][0]
         if DEBUG:
             print camera.resolution
+           # print config.count 
+           # print config.max_count
 #        config.camera_preview = False   # to turn off the preview
-        import time
+        import time 		#needs to be moved above
         date = time.strftime("%d-%m-%y")
-        full_path = config.path + "/video" + "%03d"%config.count + "_" + date
+        full_path = config.path + "/video" + "%03d"%config.max_count + "_" + date
         if DEBUG:
             print full_path
+            print "Recording Started"
+
         camera.start_recording(full_path, 'h264')
+#        api_audio.t.start()
         config.recording = True
         if config.count > config.max_count:
             config.max_count = config.count
         increment_count()
         config.start_time = datetime.datetime.now()
 #        camera.resoultion = sizeData[config.mode][0]
-    else:
+    elif config.recording:
         camera.stop_recording()
         config.recording = False
+#        api_audio.t.join()
         camera.resolution = (320,240)
+        if DEBUG: print "Recording Stopped"
 #        camera.resolution = sizeData[config.mode][0]
 
 def navigation(n):
