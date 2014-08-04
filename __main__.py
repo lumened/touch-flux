@@ -19,6 +19,7 @@ import src.config
 if src.config.projector: push_notification('Touch for Flux Active', 'Touchscreen handler is now active')
 
 src.api_projector.init_projector()
+src.api_projector.on_projector()
 src.gui_interface.start_gui()
 
 #def main():

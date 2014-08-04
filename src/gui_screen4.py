@@ -126,6 +126,8 @@ def draw(screen, mouse):
         config.update_screen = False
     elif local_update:
         pygame.display.update(140,35,180,25)
+        pygame.display.update(x+110,y,button_width,button_height) #Projector
+
                 
     return None
 

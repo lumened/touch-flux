@@ -20,7 +20,7 @@ screen_ids = {'navigation':1, 'playback':2, 'camera':3, 'power':4}
 manual_switch = False
 
 #To maintain the state of the projector, may be updated externally
-projector = False #Off, by default
+projector = True #Off, by default
 
 #Charging is automated
 charging = False
