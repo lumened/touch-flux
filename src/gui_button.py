@@ -21,10 +21,10 @@ class Button:
       
    def color(self):
       '''change color when hovering'''
-      if self.is_hover:
-         return self.hover_color
-      else:
-         return self.default_color
+      #if self.is_hover:
+      #   return self.hover_color
+      #else:
+      return self.default_color
          
    def draw_rect(self, screen, mouse, rectcoord, labelcoord, transparent=0xFF):
       '''create rect obj, draw, and change color based on input'''
@@ -60,8 +60,12 @@ class Button:
          
    def draw_triangle(self, screen, mouse, trianglecoord, labelcoord):
       self.obj = pygame.draw.polygon(screen, self.color(), trianglecoord)
+<<<<<<< HEAD
 
       self.check_hover(mouse)
+=======
+      #self.check_hover(mouse)
+>>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
 
    def check_hover(self, mouse):
       '''adjust is_hover value based on mouse over button - to change hover color'''

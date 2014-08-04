@@ -1,18 +1,40 @@
+<<<<<<< HEAD
 #Switchesw
 INDEP = False #To test outside of XBMC
 DEBUG = True
 import pygame, os, time, sys, threading
 import gui_screen1, gui_screen2, gui_screen3, gui_screen5, api_camera
+=======
+
+import pygame, os, time, sys, platform
+import gui_screen1, gui_screen2, gui_screen4
+>>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
 import custom_events,config
 
 def start_gui():
    
+   global INDEP
    global screen
    global clock
    global active_screen
    global camera_on   # for camera initialization deinitialization
 
+
+   for x in platform.uname():
+      if 'raspbmc' in x: 
+         print("Starting in RaspBMC")
+         INDEP = False #To test outside of XBMC
+         break
+      else : INDEP = True
+
+      
+   #INDEP = False
+   print(INDEP)
    if not INDEP :
+<<<<<<< HEAD
+=======
+      print("Initializing variables")
+>>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
       os.environ["TSLIB_TSDEVICE"] = "/dev/input/touchscreen"
       os.environ["TSLIB_TSEVENTTYPE"] = "INPUT"
       os.environ["TSLIB_CONFFILE"] = "/etc/ts.conf"
@@ -23,15 +45,15 @@ def start_gui():
       os.environ["SDL_VIDEODRIVER"] = "fbcon"
       os.environ["SDL_AUDIODRIVER"] = "alsa"
       
+   pygame.mixer.quit()
    pygame.init()
+   pygame.mixer.quit()
+   
    print __name__
       
    disp_no = os.getenv("DISPLAY")
    if disp_no: print "I'm running under X display = {0}".format(disp_no)
       
-   # Start with fbcon since directfb hangs with composite output
-#   drivers = [ 'fbcon', 'svgalib', 'directfb' ]
-#   found = False
    pygame.init()
    pygame.mixer.quit()
    if DEBUG:
@@ -57,18 +79,33 @@ def start_gui():
    #Initialising the screens
    gui_screen1.init()
    gui_screen2.init()
+<<<<<<< HEAD
    gui_screen3.init()
    gui_screen5.init()
+=======
+
+   gui_screen4.init()
+
+   startup_sequence()
+
+>>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
    #setting display mode and resolution
    #screen = pygame.display.set_mode((320,240))
    clock = pygame.time.Clock()
 
    #Startup Animation
+<<<<<<< HEAD
    startup_sequence()
 
    active_screen = 3 #Startup Menu
 
    camera_on = False
+=======
+#   startup_sequence()
+#   pygame.mixer.quit()
+   pygame.event.set_blocked(pygame.MOUSEMOTION)
+   active_screen = 1 #Startup Menu
+>>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
 
    return None
 
@@ -83,6 +120,7 @@ def update_gui():
    else:
        screen.fill((0xFF,0x33,0x00)) #Background Color
    mouse = pygame.mouse.get_pos()
+<<<<<<< HEAD
    if active_screen == 1 :   #active_screen =
       if camera_on:
 #          t.join() 
@@ -117,14 +155,26 @@ def update_gui():
       if config.camera_preview:
           config.camera_preview = False
       gui_screen5.draw(screen, mouse) 
+=======
+
+   if active_screen == 1 :  
+      gui_screen1.draw(screen, mouse)
+   elif active_screen == 2 : 
+      gui_screen2.draw(screen, mouse)
+   elif active_screen == 4:
+      gui_screen4.draw(screen, mouse)
+
+>>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
    for event in pygame.event.get():
       if event.type == pygame.QUIT:
          pygame.quit()
          sys.exit()
+
       if event.type == pygame.MOUSEBUTTONDOWN:
          mouse = pygame.mouse.get_pos()
-         if active_screen == config.screen_ids['navigation'] :   #active_screen = 
+         if active_screen == config.screen_ids['navigation'] :   
             gui_screen1.handle_event(mouse)
+<<<<<<< HEAD
          elif active_screen == config.screen_ids['playback'] :   #active_screen = 
             gui_screen2.handle_event(mouse)
          elif active_screen == config.screen_ids['camera'] :
@@ -132,24 +182,84 @@ def update_gui():
          elif active_screen == config.screen_ids['camera_settings'] :
             gui_screen5.handle_event(mouse)
         
+=======
+         elif active_screen == config.screen_ids['playback'] : 
+            gui_screen2.handle_event(mouse)
+         elif active_screen == config.screen_ids['power'] : 
+            gui_screen4.handle_event(mouse)
+
+>>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
       if event == custom_events.SWITCH_TO_PLAYBACK :
-         print "Custom Event"
+         if config.DEBUG : print("Custom Event")
+         config.update_screen = True
          active_screen = config.screen_ids['playback']
+
       if event == custom_events.SWITCH_TO_NAVIGATION :
-         print "Custom Event"
+         if config.DEBUG : print "Custom Event"
+         config.update_screen = True
          active_screen = config.screen_ids['navigation']
+<<<<<<< HEAD
       if event == custom_events.SWITCH_TO_CAMERA :
          print "Custom Event"
          active_screen = config.screen_ids['camera']
       if event == custom_events.SWITCH_TO_CAMERA_SETTINGS :
          print "Custom Event"
          active_screen = config.screen_ids['camera_settings']
+=======
+
+      if event == custom_events.SWITCH_TO_POWER :
+         if config.DEBUG : print "Custom Event"
+         config.update_screen = True
+         active_screen = config.screen_ids['power']
+>>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
               
 
-   pygame.display.update()
-   clock.tick(60)
+#   import cProfile
+#   cProfile.run('pygame.display.update()')
+#   pygame.display.update()
+   clock.tick(4) #Controls FPS
+#   pygame.time.wait(50)
 
    return None
 
+
 def startup_sequence():
-   pass
+   
+   global screen
+   logo = pygame.image.load("./icons/lumened.png")
+   colorkey = [0, 0, 0]
+   logo.set_colorkey(colorkey)
+   logo.set_alpha(None)
+   logo = logo.convert()
+
+   for i in range(1,40):
+      screen.fill((0xFF,0x33,0x00)) #Background Color
+      logo.set_alpha(255*i/40)
+      screen.blit(logo, (1,1))
+      pygame.display.update()
+      time.sleep(0.1)
+
+#   logo.set_alpha(None)
+#   logo = logo.convert()
+
+   for j in range(10,1,-1):
+      screen.fill((0xFF,0x33,0x00)) #Background Color
+      logo.set_alpha(255*j/10)
+      screen.blit(logo, (1,1))
+      pygame.display.update()
+      time.sleep(0.1)
+      
+#   for i in range(20,1):
+#      screen.fill((0xFF,0x33,0x00)) #Background Color
+#      logo.set_alpha(255*i/20)
+#      screen.blit(logo, (1,1))
+#      pygame.display.update()
+#      time.sleep(0.2)
+
+   screen.fill((0xFF,0x33,0x00)) #Background Color
+#   time.sleep(5)
+   return None
+
+
+
+

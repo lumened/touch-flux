@@ -3,13 +3,12 @@
 #  init()
 #  draw()
 #  handle_event()
-import time
+import time, pygame
 
 from gui_button import *
 from api_interface import *
-import custom_events
+import config, custom_events
 
-DEBUG = False
 
 def init():
     global menu
@@ -37,13 +36,14 @@ def draw(screen, mouse):
         pygame.event.post(custom_events.SWITCH_TO_PLAYBACK)
         return None
 
+    if not config.update_screen: return None
 
     x = 10
     y = 10
     
     height = 80 
     width = 60
-
+        
     menu['btn1'].draw_rect(screen, mouse, (x,y,height,width), (x,y))
     menu['btn2'].draw_rect(screen, mouse, (x,y+160,height,width), (x,y+160))
     menu['btn3'].draw_rect(screen, mouse, (x+220,y+160,height,width), (x+220,y+160))
@@ -55,6 +55,9 @@ def draw(screen, mouse):
     menu['btn8'].draw_triangle(screen, mouse, [[160,240],[120,170],[200,170]],(125,33))  #down
     menu['btn9'].draw_triangle(screen, mouse, [[280,120],[210,80],[210,160]],(125,33))      #right 
           #btn.check_hover(mouse)
+
+    pygame.display.update()
+    config.update_screen = False #Dont redraw till switch
     return None
 
 
@@ -65,24 +68,29 @@ def handle_event(mouse):
 #        pygame.event.post(custom_events.SWITCH_TO_PLAYBACK)
 
     if menu['btn1'].obj.collidepoint(mouse):
-        if DEBUG : print('button 1 clicked')
+        if config.DEBUG : print('button 1 clicked')
         pygame.event.post(custom_events.SWITCH_TO_PLAYBACK)
-#        return 2
+
             
     elif menu['btn2'].obj.collidepoint(mouse):
-        if DEBUG : print('button 2 clicked')
+        if config.DEBUG : print('button 2 clicked')
+        pygame.event.post(custom_events.SWITCH_TO_POWER)
                   
     elif menu['btn3'].obj.collidepoint(mouse):
-        if DEBUG : print('button 3 clicked')
+        if config.DEBUG : print('button 3 clicked')
         nav_back()
         
     elif menu['btn4'].obj.collidepoint(mouse):
+<<<<<<< HEAD
         pygame.event.post(custom_events.SWITCH_TO_CAMERA)
 #        config.camera_preview = True
         if DEBUG : print('button 4 clicked')
+=======
+        if config.DEBUG : print('button 4 clicked')
+>>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
             
     elif menu['btn5'].obj.collidepoint(mouse):
-        if DEBUG : print('button 5 clicked')
+        if config.DEBUG : print('button 5 clicked')
         nav_select()
 #        time.sleep(0.50)
 #        if playback_find_player() is not None:
@@ -90,19 +98,19 @@ def handle_event(mouse):
 #            return 2
 
     elif menu['btn6'].obj.collidepoint(mouse):
-        if DEBUG : print('button 6 clicked')
+        if config.DEBUG : print('button 6 clicked')
         nav_up()
 
     elif menu['btn7'].obj.collidepoint(mouse):
-        if DEBUG : print('button 7 clicked')
+        if config.DEBUG : print('button 7 clicked')
         nav_left()
 
     elif menu['btn8'].obj.collidepoint(mouse):
-        if DEBUG : print('button 8 clicked')
+        if config.DEBUG : print('button 8 clicked')
         nav_down()
 
     elif menu['btn9'].obj.collidepoint(mouse):
-        if DEBUG : print('button 9 clicked')
+        if config.DEBUG : print('button 9 clicked')
         nav_right()
     
     return None

@@ -6,12 +6,8 @@ DEBUG = False
 
 from api_wrapper import *
 
-'''
-    Navigation Functions
-    - Up, Down, Left and Right for basic navigation
-    - Select to enter an element
-    - Back to return to previous level
-'''
+
+# Navigation Functions
 
 def nav_up():
     method = 'Input.Up'
@@ -37,38 +33,36 @@ def nav_back():
     method = 'Input.Back'
     getJsonRemote(method)
 
-'''
-    Playback Functions
-    - Play/Pause
-    - Volume Control
-'''
+# Playback Control
 
 def playback_vol_inc():
-    method = 'Application.GetProperties'
-    parameters = {"properties": ["volume"]}
-    try:
-        volume = getJsonRemote(method, parameters)['volume']
-        if DEBUG : print(volume)
-        volume = int(volume) + 5
-        method = 'Application.SetVolume'
-        parameters = {"volume": volume}
-        getJsonRemote(method, parameters)
-    except:
-        return None
+    #method = 'Application.GetProperties'
+    #parameters = {"properties": ["volume"]}
+    #try:
+    #    volume = getJsonRemote(method, parameters)['volume']
+    #    if DEBUG : print(volume)
+    #    volume = int(volume) + 5
+    method = 'Application.SetVolume'
+    #parameters = {"volume": volume}
+    parameters = {"volume": "increment"}
+    getJsonRemote(method, parameters)
+    #except:
+    return None
 
 
 def playback_vol_dec():
-    method = 'Application.GetProperties'
-    parameters = {"properties": ["volume"]}
-    try:
-        volume = getJsonRemote(method, parameters)['volume']
-        if DEBUG : print(volume)
-        volume = int(volume) - 5
-        method = 'Application.SetVolume'
-        parameters = {"volume": volume}
-        getJsonRemote(method, parameters)
-    except:
-        return None
+    #method = 'Application.GetProperties'
+    #parameters = {"properties": ["volume"]}
+    #try:
+    #    volume = getJsonRemote(method, parameters)['volume']
+    #    if DEBUG : print(volume)
+    #    volume = int(volume) - 5
+    method = 'Application.SetVolume'
+    #parameters = {"volume": volume}
+    parameters = {"volume": "decrement"}
+    getJsonRemote(method, parameters)
+#    except:
+    return None
 
 
 def playback_find_player():
@@ -78,7 +72,7 @@ def playback_find_player():
     try :
         player_id = player_list[0]['playerid']
         return player_id
-    except IndexError or TypeError:
+    except (IndexError, TypeError):
         if DEBUG : print("No players active")
         return None
 
@@ -124,6 +118,18 @@ def playback_percentage():
     except:
         return None
 
+def playback_speed():
+    player_id = playback_find_player()
+    if player_id == None : return
+    method = 'Player.GetProperties'
+    parameters = {"playerid": player_id, "properties":["speed"]} 
+    result = getJsonRemote(method, parameters)
+    try:
+        return result['speed']
+    except:
+        return None
+
+
 def playback_time():
     player_id = playback_find_player()
     if player_id == None : return
@@ -165,12 +171,22 @@ def playback_properties():
     player_id = playback_find_player()
     if player_id == None : return
     method = 'Player.GetProperties'
-    parameters = {"playerid": player_id, "properties":["percentage","time"]} 
+    parameters = {"playerid": player_id, "properties":["percentage","time","speed"]} 
     result = getJsonRemote(method, parameters)
     return result
 
 
+# XBMC GUI 
+
 def push_notification(title, text):
     method = 'GUI.ShowNotification'
     parameters = {'title':title,'message':text}
+    getJsonRemote(method, parameters)
+
+
+# System Control
+
+def shutdown():
+    method = 'System.Shutdown'
+    parameters = {}
     getJsonRemote(method, parameters)
