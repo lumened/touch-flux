@@ -1,14 +1,5 @@
-<<<<<<< HEAD
-#Switchesw
-INDEP = False #To test outside of XBMC
-DEBUG = True
-import pygame, os, time, sys, threading
-import gui_screen1, gui_screen2, gui_screen3, gui_screen5, api_camera
-=======
-
-import pygame, os, time, sys, platform
-import gui_screen1, gui_screen2, gui_screen4
->>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
+import pygame, os, time, sys, threading, platform
+import gui_screen1, gui_screen2, gui_screen3, gui_screen4, gui_screen5, api_camera
 import custom_events,config
 
 def start_gui():
@@ -27,14 +18,9 @@ def start_gui():
          break
       else : INDEP = True
 
-      
-   #INDEP = False
    print(INDEP)
    if not INDEP :
-<<<<<<< HEAD
-=======
       print("Initializing variables")
->>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
       os.environ["TSLIB_TSDEVICE"] = "/dev/input/touchscreen"
       os.environ["TSLIB_TSEVENTTYPE"] = "INPUT"
       os.environ["TSLIB_CONFFILE"] = "/etc/ts.conf"
@@ -48,6 +34,7 @@ def start_gui():
    pygame.mixer.quit()
    pygame.init()
    pygame.mixer.quit()
+   pygame.mouse.set_visible(False)
    
    print __name__
       
@@ -56,7 +43,7 @@ def start_gui():
       
    pygame.init()
    pygame.mixer.quit()
-   if DEBUG:
+   if config.DEBUG:
        print os.getenv('SDL_VIDEODRIVER')
    if INDEP:
       size = (320,240)
@@ -79,33 +66,26 @@ def start_gui():
    #Initialising the screens
    gui_screen1.init()
    gui_screen2.init()
-<<<<<<< HEAD
    gui_screen3.init()
-   gui_screen5.init()
-=======
-
    gui_screen4.init()
+   gui_screen5.init()
 
    startup_sequence()
 
->>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
    #setting display mode and resolution
    #screen = pygame.display.set_mode((320,240))
    clock = pygame.time.Clock()
 
    #Startup Animation
-<<<<<<< HEAD
    startup_sequence()
 
-   active_screen = 3 #Startup Menu
+   #active_screen = 3 #Startup Menu
 
    camera_on = False
-=======
 #   startup_sequence()
 #   pygame.mixer.quit()
    pygame.event.set_blocked(pygame.MOUSEMOTION)
    active_screen = 1 #Startup Menu
->>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
 
    return None
 
@@ -120,8 +100,8 @@ def update_gui():
    else:
        screen.fill((0xFF,0x33,0x00)) #Background Color
    mouse = pygame.mouse.get_pos()
-<<<<<<< HEAD
-   if active_screen == 1 :   #active_screen =
+
+   if active_screen == 1 :
       if camera_on:
 #          t.join() 
           api_camera.deinit_camera()
@@ -151,20 +131,28 @@ def update_gui():
       else:
           gui_screen3.draw(screen, mouse)
 #          print config.recording
+   elif active_screen == 4 :
+      if camera_on:
+#          t.join() 
+          api_camera.deinit_camera()
+          #api_audio.deinit_audio()
+          camera_on = False
+          config.camera_preview = False
+      gui_screen4.draw(screen, mouse)
+
    elif active_screen == 5:
       if config.camera_preview:
           config.camera_preview = False
       gui_screen5.draw(screen, mouse) 
-=======
 
-   if active_screen == 1 :  
-      gui_screen1.draw(screen, mouse)
-   elif active_screen == 2 : 
-      gui_screen2.draw(screen, mouse)
-   elif active_screen == 4:
-      gui_screen4.draw(screen, mouse)
+#   if active_screen == 1 :  
+#      gui_screen1.draw(screen, mouse)
+#   elif active_screen == 2 : 
+#      gui_screen2.draw(screen, mouse)
+#   elif active_screen == 4:
+#      gui_screen4.draw(screen, mouse)
 
->>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
+
    for event in pygame.event.get():
       if event.type == pygame.QUIT:
          pygame.quit()
@@ -174,21 +162,17 @@ def update_gui():
          mouse = pygame.mouse.get_pos()
          if active_screen == config.screen_ids['navigation'] :   
             gui_screen1.handle_event(mouse)
-<<<<<<< HEAD
          elif active_screen == config.screen_ids['playback'] :   #active_screen = 
             gui_screen2.handle_event(mouse)
          elif active_screen == config.screen_ids['camera'] :
             gui_screen3.handle_event(mouse)
          elif active_screen == config.screen_ids['camera_settings'] :
             gui_screen5.handle_event(mouse)
-        
-=======
          elif active_screen == config.screen_ids['playback'] : 
             gui_screen2.handle_event(mouse)
          elif active_screen == config.screen_ids['power'] : 
             gui_screen4.handle_event(mouse)
 
->>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
       if event == custom_events.SWITCH_TO_PLAYBACK :
          if config.DEBUG : print("Custom Event")
          config.update_screen = True
@@ -198,21 +182,16 @@ def update_gui():
          if config.DEBUG : print "Custom Event"
          config.update_screen = True
          active_screen = config.screen_ids['navigation']
-<<<<<<< HEAD
       if event == custom_events.SWITCH_TO_CAMERA :
          print "Custom Event"
          active_screen = config.screen_ids['camera']
       if event == custom_events.SWITCH_TO_CAMERA_SETTINGS :
          print "Custom Event"
          active_screen = config.screen_ids['camera_settings']
-=======
-
       if event == custom_events.SWITCH_TO_POWER :
          if config.DEBUG : print "Custom Event"
          config.update_screen = True
-         active_screen = config.screen_ids['power']
->>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
-              
+         active_screen = config.screen_ids['power']            
 
 #   import cProfile
 #   cProfile.run('pygame.display.update()')

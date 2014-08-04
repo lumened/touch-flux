@@ -60,12 +60,7 @@ class Button:
          
    def draw_triangle(self, screen, mouse, trianglecoord, labelcoord):
       self.obj = pygame.draw.polygon(screen, self.color(), trianglecoord)
-<<<<<<< HEAD
-
-      self.check_hover(mouse)
-=======
       #self.check_hover(mouse)
->>>>>>> fbc0501989f485a85b8c641126671c5facd36be0
 
    def check_hover(self, mouse):
       '''adjust is_hover value based on mouse over button - to change hover color'''
