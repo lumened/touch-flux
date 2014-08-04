@@ -6,7 +6,7 @@ file.
 import pyaudio
 import wave
 import sys
-import threading, time, 
+import threading, time
 DEBUG = True
 
 def init_audio():

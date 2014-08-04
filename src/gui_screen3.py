@@ -6,7 +6,7 @@ import datetime
 import atexit, io, os, yuv2rgb, picamera, pygame
 from gui_button import *
 from api_interface import *
-import custom_events, api_camera, api_audio
+import custom_events, api_camera
 
 DEBUG = True
 

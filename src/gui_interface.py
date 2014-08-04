@@ -2,7 +2,7 @@
 INDEP = False #To test outside of XBMC
 DEBUG = True
 import pygame, os, time, sys, threading
-import gui_screen1, gui_screen2, gui_screen3, gui_screen5, api_camera, api_audio
+import gui_screen1, gui_screen2, gui_screen3, gui_screen5, api_camera
 import custom_events,config
 
 def start_gui():
