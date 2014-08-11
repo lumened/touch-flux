@@ -49,7 +49,8 @@ def start_gui():
       size = (320,240)
    else:
       size = (pygame.display.Info().current_w, pygame.display.Info().current_h)
-   print "Framebuffer size: %d x %d" % (size[0], size[1])
+   if config.DEBUG:
+       print "Framebuffer size: %d x %d" % (size[0], size[1])
    
    if INDEP:
       screen=pygame.display.set_mode(size, pygame.RESIZABLE)
@@ -70,14 +71,14 @@ def start_gui():
    gui_screen4.init()
    gui_screen5.init()
 
-   startup_sequence()
+#   startup_sequence()
 
    #setting display mode and resolution
    #screen = pygame.display.set_mode((320,240))
    clock = pygame.time.Clock()
 
    #Startup Animation
-   startup_sequence()
+#   startup_sequence()
 
    #active_screen = 3 #Startup Menu
 
@@ -108,6 +109,7 @@ def update_gui():
           #api_audio.deinit_audio()
           camera_on = False
           config.camera_preview = False
+          screen.fill((0xFF,0x33,0x00)) #Background Color
       gui_screen1.draw(screen, mouse)
    elif active_screen == 2 : #active_screen = 
       if camera_on:
@@ -127,10 +129,8 @@ def update_gui():
 #          camera_preview = on
       if config.recording: 
           gui_screen3.draw(screen, mouse, 50)      # to make the buttons transparent
-#          print config.recording
       else:
           gui_screen3.draw(screen, mouse)
-#          print config.recording
    elif active_screen == 4 :
       if camera_on:
 #          t.join() 
@@ -141,8 +141,14 @@ def update_gui():
       gui_screen4.draw(screen, mouse)
 
    elif active_screen == 5:
-      if config.camera_preview:
+      if camera_on:
+#          t.join() 
+          api_camera.deinit_camera()
+          #api_audio.deinit_audio()
+          camera_on = False
           config.camera_preview = False
+#      if config.camera_preview:
+#          config.camera_preview = False
       gui_screen5.draw(screen, mouse) 
 
 #   if active_screen == 1 :  
@@ -179,17 +185,19 @@ def update_gui():
          active_screen = config.screen_ids['playback']
 
       if event == custom_events.SWITCH_TO_NAVIGATION :
-         if config.DEBUG : print "Custom Event"
+         if config.DEBUG : print "Custom Event (Navigation)"
          config.update_screen = True
          active_screen = config.screen_ids['navigation']
       if event == custom_events.SWITCH_TO_CAMERA :
-         print "Custom Event"
+         if config.DEBUG : print "Custom Event(Camera)"
+         config.update_screen = True
          active_screen = config.screen_ids['camera']
       if event == custom_events.SWITCH_TO_CAMERA_SETTINGS :
-         print "Custom Event"
+         if config.DEBUG : print "Custom Event(camera settings)"
+         config.update_screen = True
          active_screen = config.screen_ids['camera_settings']
       if event == custom_events.SWITCH_TO_POWER :
-         if config.DEBUG : print "Custom Event"
+         if config.DEBUG : print "Custom Event(power)"
          config.update_screen = True
          active_screen = config.screen_ids['power']            
 

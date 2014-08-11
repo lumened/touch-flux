@@ -9,7 +9,6 @@ from gui_button import *
 from api_interface import *
 import custom_events, config
 from gui_screen5 import *
-DEBUG = True
 
 #some variables defined
 
@@ -41,25 +40,28 @@ def draw(screen, mouse, transparent = 0xFF):
     menu['btn3'].draw_rect(screen, mouse, (x+110,y+160,height,width), (x+110,y+160), transparent)
     menu['btn4'].draw_rect(screen, mouse, (x+220,y+160,height,width), (x+220,y+160), transparent)
 
+    pygame.display.update()
+    config.update_screen = False
+    return None
 
 def handle_event(mouse):
     global menu
 
 #        return 2
     if menu['btn1'].obj.collidepoint(mouse):
-        if DEBUG : print('button 1 clicked')
+        if config.DEBUG : print('button 1(screen 5) clicked')
         pygame.event.post(custom_events.SWITCH_TO_CAMERA)
         config.camera_preview = True        
     elif menu['btn2'].obj.collidepoint(mouse):
-        if DEBUG : print('button 2 clicked')
+        if config.DEBUG : print('button 2 clicked')
         set_resolution(0)          
     elif menu['btn3'].obj.collidepoint(mouse):
-        if DEBUG : print('button 3 clicked')
+        if config.DEBUG : print('button 3 clicked')
         set_resolution(1)          
 #        record()          
         set_resolution((1920,1080))          
     elif menu['btn4'].obj.collidepoint(mouse):
-        if DEBUG : print('button 4 clicked')
+        if config.DEBUG : print('button 4 clicked')
         set_resolution(2)          
              
     return None

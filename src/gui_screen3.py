@@ -8,7 +8,6 @@ from gui_button import *
 from api_interface import *
 import custom_events, api_camera
 
-DEBUG = True
 
 #some variables defined
 
@@ -35,11 +34,8 @@ def display_video_info(screen):
 #    date = time.strftime("%d-%m-%Y")
     full_path = "video" + "%03d"%config.count
     files = os.listdir(config.path)
-#    print full_path
     for item in files:
-#         print "for"
          if item.find(full_path)!= -1:
-#             print item
              render_text(screen, item, (50,120))
 
 def display_video_time(screen):
@@ -63,11 +59,12 @@ def draw(screen, mouse, transparent = 0xFF):
     menu['btn2'].draw_rect(screen, mouse, (x,y+160,height,width), (x,y+160), transparent)
     menu['btn3'].draw_rect(screen, mouse, (x+220,y+160,height,width), (x+220,y+160), transparent)
     menu['btn4'].draw_rect(screen, mouse, (x+220,y,height,width), (x+220,y), transparent)
-#    if config.recording:
-#         display_video_time(screen)
+    if config.recording:
+         display_video_time(screen)
           #btn.check_hover(mouse)
     if not config.camera_preview:
          display_video_info(screen)
+    pygame.display.update()
     return None
 
 
@@ -76,31 +73,31 @@ def handle_event(mouse):
 
 #        return 2
     if menu['btn1'].obj.collidepoint(mouse) and config.camera_preview:
-        if DEBUG : print('button 1 clicked')
+        if config.DEBUG : print('button 1 clicked')
         pygame.event.post(custom_events.SWITCH_TO_NAVIGATION)
     elif menu['btn1'].obj.collidepoint(mouse) and not config.camera_preview:
-        if DEBUG : print('button 1 clicked')
+        if config.DEBUG : print('button 1(2) clicked')
         config.camera_preview = True           
     elif menu['btn2'].obj.collidepoint(mouse):
-        if DEBUG : print('button 2 clicked')
+        if config.DEBUG : print('button 2 clicked')
         api_camera.navigation(-1)          
     elif menu['btn3'].obj.collidepoint(mouse) and config.camera_preview:
-        if DEBUG : print('button 3 clicked')
+        if config.DEBUG : print('button 3 clicked')
 #        record()          
         api_camera.navigation(0)
     elif menu['btn3'].obj.collidepoint(mouse) and not config.camera_preview:
-        if DEBUG : print('button 3 clicked')
+        if config.DEBUG : print('button 3 clicked')
 #        record()          
         api_camera.navigation(1)
     elif menu['btn4'].obj.collidepoint(mouse):
-        if DEBUG : print('button 4 clicked')
-        pygame.event.post(custom_events.SWITCH_TO_CAMERA_SETTINGS)        
-        config.camera_preview = False
+        if config.DEBUG : print('button 4 clicked')
+        pygame.event.post(custom_events.SWITCH_TO_CAMERA_SETTINGS)    
+     #   config.camera_preview = False
     elif menu['surface'].obj.collidepoint(mouse) and config.camera_preview:
-        if DEBUG : print('surface clicked recording')
+        if config.DEBUG : print('surface clicked recording')
         api_camera.record()
         #api_audio.record()
     elif menu['surface'].obj.collidepoint(mouse) and not config.camera_preview:
-        if DEBUG : print('surface clicked and video started')
+        if config.DEBUG : print('surface clicked and video started')
  #       mplayer
     return None

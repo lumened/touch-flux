@@ -5,8 +5,8 @@
 #  handle_event()
 
 from gui_button import *
-from api_interface import *
-import config, custom_events, api_projector
+from api_interface import * 
+import config, custom_events, api_projector, time 
 import pygame
 
 def init():
@@ -138,7 +138,7 @@ def handle_event(mouse):
     if menu['btn1'].obj.collidepoint(mouse):
         if config.DEBUG : print('Activate Shutdown')
         shutdown()
-        sleep(10) #Still on
+        time.sleep(10) #Still on
         from os import call
         call(["sudo","shutdown", "-h", "now"])
         

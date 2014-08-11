@@ -33,7 +33,7 @@ def init_camera():
     rgb2 = bytearray(320 * 240 * 3)
 
     calculate_count()
-    print camera.resolution
+#    print camera.resolution
 
 
 def deinit_camera():
