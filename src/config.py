@@ -3,7 +3,7 @@
 # Development Switches
 
 INDEP = True 
-DEBUG = False
+DEBUG = True
 
 # Constants
 

@@ -1,0 +1,22 @@
+install i2ctools, MP4Box, mp3info, alsautils
+
+
+
+
+
+to clip a video 
+MP4Box -raw 1 "wdr_fernsehen_monitor_20110310.mp4" -splitx 0:420 -out "test.264
+
+to merge a h2644 and mp3 file 
+Mp4Box -add demo.h264 -add demo.mp3 demo.mp4
+
+
+to clip a video and convert h264 to mp4 in a single step
+MP4Box -add demo.h264 -splitx 0:90 demo2.mp4
+
+to find the audio duration
+mp3info -p "%S" demo.mp3
+
+
+for creating a thumbnail
+ffmpeg  -itsoffset -4  -i video000_21-08-14.mp4 -vcodec mjpeg -vframes 1 -an -f rawvideo -s 320x240 test.jpg

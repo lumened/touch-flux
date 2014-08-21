@@ -1,10 +1,10 @@
 
 import time, datetime
-import atexit, io, os, picamera, yuv2rgb, picamera, pygame
+import atexit, io, os, picamera, yuv2rgb, picamera, pygame, subprocess, signal
 from gui_button import *
 import custom_events
-DEBUG = True
-
+#DEBUG = True
+import config
 def init_camera():
     global camera, sizeMode, sizeData,yuv1, rgb1, yuv2, rgb2, stream
     s = os.getenv("SUDO_UID")
@@ -96,42 +96,60 @@ def preview(screen):
 
 def increment_count():
     config.count = (config.count + 1)%1000
+    config.max_count= (config.max_count + 1)%1000
 
 def record():
     global camera, sizeData
+    import time 		#needs to be moved above
+    date = time.strftime("%d-%m-%y")
+    full_video_path = config.path + "/video" + "%03d"%config.max_count + "_" + date + ".h264"
+    full_audio_path = config.path + "/audio" + "%03d"%config.max_count + "_" + date + ".mp3"
+   
     if not config.recording:
 #        camera.resolution = size_Data[sizeMode][0]
         camera.resolution = sizeData[config.mode][0]
-        if DEBUG:
+        if config.DEBUG:
             print camera.resolution
            # print config.count 
            # print config.max_count
 #        config.camera_preview = False   # to turn off the preview
-        import time 		#needs to be moved above
-        date = time.strftime("%d-%m-%y")
-        full_path = config.path + "/video" + "%03d"%config.max_count + "_" + date
-        if DEBUG:
-            print full_path
-            print "Recording Started"
+        camera.start_recording(full_video_path, 'h264')
 
-        camera.start_recording(full_path, 'h264')
-#        api_audio.t.start()
+#       ----------start audio recording---------
+        reccmd = ["arecord", "-B", "5000", "-f", "cd"]
+        mp3cmd = ["lame", "-m", "j", "-q", "5", "-V", "2", "-", full_audio_path]
+        p = subprocess.Popen(reccmd, stdout=subprocess.PIPE)
+        p2 = subprocess.Popen(mp3cmd, stdin=p.stdout)
+#        p2.communicate()
+#       ----------audio recording started--------       
+
+        if config.DEBUG:
+            print "Recording Started"
         config.recording = True
-        if config.count > config.max_count:
-            config.max_count = config.count
-        increment_count()
+#        if config.count > config.max_count:
+#            config.max_count = config.count
         config.start_time = datetime.datetime.now()
-#        camera.resoultion = sizeData[config.mode][0]
     elif config.recording:
         camera.stop_recording()
         config.recording = False
-#        api_audio.t.join()
+
+#       ---------stop audio recording--------
+        subprocess.call(['killall', 'lame'])
+#       ---------audio recording stopped-------- 
+
+#       ---------audio and video merging ----------      
+        video_mp4_path = config.path + "/video" + "%03d"%config.max_count + "_" + date + ".mp4"
+        str="./merging.sh" + " " + full_video_path + " " + full_audio_path + " " + video_mp4_path + "&"
+        if config.DEBUG:
+            print str
+        subprocess.call(str, shell=True)
+#       ---------audio and video merging done ---------
+
+        increment_count()
         camera.resolution = (320,240)
-        if DEBUG: print "Recording Stopped"
-#        camera.resolution = sizeData[config.mode][0]
+        if config.DEBUG: print "Recording Stopped"
 
 def navigation(n):
-#    global path
     if config.camera_preview:
         config.camera_preview = False
     config.count = (config.count + n) % config.max_count
